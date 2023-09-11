@@ -1,0 +1,22 @@
+.lined {
+    padding-left: 84px;
+}
+
+.lined:hover {
+    color: white;
+}
+
+.lined:before {
+    position: absolute;
+    height: 2px;
+    width: 80px;
+    content: " ";
+    background: #dbb1a2;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.lined:hover::before {
+    background: white;
+}
