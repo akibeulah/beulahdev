@@ -2,11 +2,37 @@ import './App.css'
 import {githubLogo, linkedinLogo, mediumLogo} from "./assets/index.js";
 import {ExperienceCardComponent, ProjectsCard, TechnologiesCard} from "./components/experienceCard.component.jsx";
 import {backendTechnologies, databases, devOpsTools, frontendTechnologies, programmingLanguages} from "./utils.js";
+import {useEffect, useRef, useState} from "react";
 
 function App() {
+    const canvasRef = useRef(null);
+    const [focused, setFocused] = useState("about");
+    // const [isHovered, setIsHovered] = useState(false);
+    const aboutRef = useRef(null)
+    const experienceRef = useRef(null)
+    const technologiesRef = useRef(null)
+    const projectsRef = useRef(null)
+    const contactRef = useRef(null)
+
+    useEffect(() => {
+        if (
+            aboutRef.current &&
+            experienceRef.current &&
+            technologiesRef.current &&
+            projectsRef.current &&
+            contactRef.current
+        ) {
+            const scrollItem = focused === "about" ? aboutRef.current : focused === "experience" ? experienceRef.current : focused === "technologies" ? technologiesRef.current : focused === "projects" ? projectsRef.current : contactRef.current
+            scrollItem.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'start'});
+        }
+    }, [focused])
+
+
     return (
-        <div className={"bg-[#3b2f2b] text-[#e0bfb4] font-inter"}>
-            <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-10 px-4 lg:px-8">
+        <div className={"bg-[#3b2f2b] text-[#e0bfb4] font-inter relative"}>
+            <canvas ref={canvasRef} className={"absolute top-0 left-0 right-0 bottom-0 h-screen w-screen z-0"}/>
+
+            <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-10 px-4 lg:px-8 relative z-10">
                 <div className="py-24 lg:px-4 lg:col-span-4 lg:h-screen flex flex-col">
                     <div className="">
                         <div className="mb-4">
@@ -41,11 +67,21 @@ function App() {
                         </div>
 
                         <div className="hidden lg:flex flex-col space-y-2 py-8">
-                            <a className={"uppercase text-sm font-medium lined relative"} href="#about">About</a>
-                            <a className={"uppercase text-sm font-medium lined relative"} href="#about">Experience</a>
-                            <a className={"uppercase text-sm font-medium lined relative"} href="#about">Technologies</a>
-                            <a className={"uppercase text-sm font-medium lined relative"} href="#about">Projects</a>
-                            <a className={"uppercase text-sm font-medium lined relative"} href="#about">Contact Me</a>
+                            <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                                    onClick={() => setFocused("about")}>About
+                            </button>
+                            <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                                    onClick={() => setFocused("experience")}>Experience
+                            </button>
+                            <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                                    onClick={() => setFocused("technologies")}>Technologies
+                            </button>
+                            <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                                    onClick={() => setFocused("projects")}>Projects
+                            </button>
+                            <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                                    onClick={() => setFocused("contact")}>Contact Me
+                            </button>
                         </div>
                     </div>
 
@@ -69,7 +105,7 @@ function App() {
 
                 <div className="lg:px-4 lg:py-24 lg:col-span-6 lg:h-screen lg:overflow-scroll scrollbar-thin">
                     <div className="">
-                        <div className={"mb-16 text-sm"} id="about">
+                        <div className={"mb-16 text-sm"} ref={aboutRef} id="about">
                             <h4 className={"font-bold text-lg mb-4 text-white"}>ABOUT</h4>
 
                             <p className={"mb-4"}>
@@ -98,7 +134,7 @@ function App() {
                             </p>
                         </div>
 
-                        <div id="experience" className={"mb-16"}>
+                        <div ref={experienceRef} id="experience" className={"mb-16"}>
                             <h4 className={"font-bold text-lg mb-4 text-white"}>EXPERIENCE</h4>
 
                             <div className="flex flex-col space-y-4">
@@ -170,7 +206,7 @@ function App() {
                             </div>
                         </div>
 
-                        <div id="technologies" className={"mb-16"}>
+                        <div ref={technologiesRef} id="technologies" className={"mb-16"}>
                             <h4 className={"font-bold text-lg mb-4 text-white"}>TECHNOLOGIES</h4>
 
                             <div className="flex flex-col space-y-4">
@@ -182,10 +218,19 @@ function App() {
                             </div>
                         </div>
 
-                        <div id="projects" className={"mb-16"}>
+                        <div ref={projectsRef} id="projects" className={"mb-16"}>
                             <h4 className={"font-bold text-lg mb-4 text-white"}>PROJECTS</h4>
 
                             <div className="flex flex-col space-y-4">
+                                <ProjectsCard
+                                    title={"Beulah's Development Portfolio"}
+                                    url={"https://beulahdev.onrender.com"}
+                                    tech={["JavaScript", "React"]}
+                                    desc={"Designed and developed a portfolio website, showcasing proficiency in web development and design with a focus on user experience"}
+                                    img={"https://i.ibb.co/BjvM9BN/Screenshot-from-2023-09-11-23-01-02.png"}
+                                    githubUrl={"https://github.com/akibeulah/beulahdev"}
+                                />
+
                                 <ProjectsCard
                                     title={"Todo Application"}
                                     url={"https://todoapp-3esd.onrender.com"}
@@ -205,6 +250,14 @@ function App() {
                                 />
                             </div>
                         </div>
+
+                        {/*<div ref={contactRef} id="contact" className={"mb-16"}>*/}
+                        {/*    <h4 className={"font-bold text-lg mb-4 text-white"}>CONTACT ME</h4>*/}
+
+                        {/*    <div className="flex flex-col space-y-4">*/}
+
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             </div>
