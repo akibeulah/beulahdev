@@ -19,10 +19,10 @@ export const ExperienceCardComponent = ({time, title, company, desc, tech}) => {
                     }
                 </ul>
 
-                <div className="flex flex-row space-x-2 space-y-2 items-center">
+                <div className="flex flex-row space-x-2 items-center">
                     {
                         tech.map((i, k) =>
-                            <div className={"text-xs text-[#6ac9eb] bg-[#174859aa] py-1 px-2 rounded-full"} key={k}>
+                            <div className={"text-xs text-[#6ac9eb] my-1 bg-[#174859aa] py-1 px-2 rounded-full"} key={k}>
                                 {i}
                             </div>
                         )
@@ -42,10 +42,10 @@ export const TechnologiesCard = ({title, arr}) => {
                     {title}
                 </div>
                 <div className="md:col-span-6 py-2 lg:py-0">
-                    <div className="flex flex-row flex-wrap space-x-2 space-y-2 items-center">
+                    <div className="flex flex-row flex-wrap space-x-2 items-center">
                         {
                             arr.map((i, k) =>
-                                <div className={"text-xs text-[#6ac9eb] bg-[#174859aa] py-1 px-2 rounded-full"} key={k}>
+                                <div className={"text-xs text-[#6ac9eb] my-1 bg-[#174859aa] py-1 px-2 rounded-full"} key={k}>
                                     {i}
                                 </div>
                             )
@@ -76,10 +76,10 @@ export const ProjectsCard = ({title, img, desc, tech, url, githubUrl}) => {
                             <img className={"w-12"} {...githubLogo}/>
                         </a>
                         : ""}
-                    <div className="flex flex-row flex-wrap space-x-2 space-y-2 items-center">
+                    <div className="flex flex-row flex-wrap space-x-2 items-center">
                         {
                             tech.map((i, k) =>
-                                <div className={"text-xs text-[#6ac9eb] bg-[#174859aa] py-1 px-2 rounded-full"} key={k}>
+                                <div className={"text-xs text-[#6ac9eb] my-1 bg-[#174859aa] py-1 px-2 rounded-full"} key={k}>
                                     {i}
                                 </div>
                             )
