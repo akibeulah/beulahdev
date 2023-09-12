@@ -3,6 +3,7 @@ import {githubLogo, linkedinLogo, mediumLogo} from "./assets/index.js";
 import {ExperienceCardComponent, ProjectsCard, TechnologiesCard} from "./components/experienceCard.component.jsx";
 import {backendTechnologies, databases, devOpsTools, frontendTechnologies, programmingLanguages} from "./utils.js";
 import {useEffect, useRef, useState} from "react";
+import {PaperAirplaneIcon} from "@heroicons/react/24/outline/index.js";
 
 function App() {
     const canvasRef = useRef(null);
@@ -22,7 +23,10 @@ function App() {
             projectsRef.current &&
             contactRef.current
         ) {
-            const scrollItem = focused === "about" ? aboutRef.current : focused === "experience" ? experienceRef.current : focused === "technologies" ? technologiesRef.current : focused === "projects" ? projectsRef.current : contactRef.current
+            const scrollItem = focused === "about" ? aboutRef.current :
+                focused === "experience" ? experienceRef.current :
+                    focused === "technologies" ? technologiesRef.current :
+                        focused === "projects" ? projectsRef.current : contactRef.current
             scrollItem.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'start'});
         }
     }, [focused])
@@ -251,13 +255,35 @@ function App() {
                             </div>
                         </div>
 
-                        {/*<div ref={contactRef} id="contact" className={"mb-16"}>*/}
-                        {/*    <h4 className={"font-bold text-lg mb-4 text-white"}>CONTACT ME</h4>*/}
+                        <div ref={contactRef} id="contact" className={"mb-16"}>
+                            <h4 className={"font-bold text-lg mb-4 text-white"}>CONTACT ME</h4>
 
-                        {/*    <div className="flex flex-col space-y-4">*/}
+                            <div className="flex flex-col">
+                                <div className="mb-4 w-full">
+                                    <input type="text" placeholder={"Fullname"}
+                                           className={"bg-transparent border  p-2 px-4 rounded  w-full border-[#e0bfb4] outline-none"}/>
+                                </div>
+                                <div className="mb-4 w-full">
+                                    <input type="email" placeholder={"Email"}
+                                           className={"bg-transparent border  p-2 px-4 rounded  w-full border-[#e0bfb4] outline-none"}/>
+                                </div>
+                                <div className="mb-6 w-full">
+                                    <input type="phone" placeholder={"Phone Number"}
+                                           className={"bg-transparent border  p-2 px-4 rounded  w-full border-[#e0bfb4] outline-none"}/>
+                                </div>
+                                <div className="w-full mb-4">
+                                <textarea placeholder={"Message"}
+                                          className={"bg-transparent border  p-2 px-4 rounded w-full block border-[#e0bfb4] outline-none"}/>
+                                </div>
 
-                        {/*    </div>*/}
-                        {/*</div>*/}
+                                <button
+                                    className={"flex flex-row items-center py-2 px-3 border border-[#e0bfb4] w-fit"}>
+                                    <span>Send</span>
+                                    <span className={"ml-3"}><PaperAirplaneIcon
+                                        className={"w-5 aspect-square -rotate-45"}/></span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

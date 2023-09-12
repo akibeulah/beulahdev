@@ -1,5 +1,6 @@
 .lined {
     padding-left: 84px;
+    transition: all 300ms ease-in-out;
 }
 
 .lined:hover {
@@ -8,13 +9,14 @@
 
 .lined:before {
     position: absolute;
-    height: 2px;
+    height: 1px;
     width: 80px;
     content: " ";
     background: #dbb1a2;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
+    transition: all 300ms ease-in-out;
 }
 
 .lined:hover::before {
