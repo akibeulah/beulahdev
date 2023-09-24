@@ -4,7 +4,7 @@ export const ExperienceCardComponent = ({time, title, company, desc, tech}) => {
 
 
     return (
-        <div className={"grid grid-cols-1 md:grid-cols-8 md:gap-4 text-sm"}>
+        <div className={"grid grid-cols-1 md:grid-cols-8 md:gap-4 text-sm rounded-3xl lg:p-4 glass transition duration-300"}>
             <div className="md:col-span-2">
                 {time}
             </div>
