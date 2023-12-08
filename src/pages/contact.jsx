@@ -24,7 +24,7 @@ export const ContactPage = () => {
                     })
 
                     if (send) {
-                        emailjs.send("service_w64am7g", "template_6tz0up1", formData);
+                        emailjs.send("EnCEVZkIeczDhxpOC", "service_w64am7g", "template_6tz0up1", formData);
                         setFormData({
                             from_name: "",
                             reply_to: "",
