@@ -1,4 +1,6 @@
 export const programmingLanguages = [
+    "C#",
+    "C/C++",
     "JavaScript",
     "TypeScript",
     "Python",
@@ -20,6 +22,7 @@ export const frontendTechnologies = [
 ];
 
 export const backendTechnologies = [
+    ".Net",
     "Express",
     "Spring",
     "Django",

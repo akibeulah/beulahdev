@@ -1,5 +1,7 @@
-import {Link} from "react-router-dom";
-import {ChevronLeftIcon} from "@heroicons/react/20/solid/index.js";
+import { Link } from "react-router-dom";
+import { ChevronLeftIcon } from "@heroicons/react/20/solid/index.js";
+import ProjectJson from "../jsons/projects.json";
+import { ProjectsCard } from "../components/experienceCard.component.jsx";
 
 export const Projects = () => {
 
@@ -13,8 +15,20 @@ export const Projects = () => {
 
                 <h4 className={"font-bold text-lg mb-4 text-white mt-8"}>Projects</h4>
 
-                <p>Coming soon! Trust me, you'll want to check back.</p>
-
+                <div className="flex flex-col space-y-4">
+                    {
+                        ProjectJson.map((i, k) =>
+                            <ProjectsCard
+                                title={i.title}
+                                url={i.url}
+                                tech={i.tech}
+                                desc={i.desc}
+                                img={i.img}
+                                githubUrl={i.githubUrl}
+                            />
+                        )
+                    }
+                </div>
             </div>
         </>
     )

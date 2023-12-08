@@ -4,6 +4,8 @@ import {useEffect, useRef, useState} from "react";
 import {Outlet} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {updateSiteData} from "./store/reducers/siteDataReducer.js";
+import { ToastContainer} from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const dispatch = useDispatch()
@@ -86,6 +88,7 @@ function App() {
 
     return (
         <div className={"bg-[#3b2f2b] text-[#e0bfb4] font-inter relative"}>
+            <ToastContainer />
             <canvas ref={canvasRef} className={"absolute top-0 left-0 right-0 bottom-0 h-screen w-screen z-0"}/>
 
             <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-10 px-4 lg:px-8 relative z-10">

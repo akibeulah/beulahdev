@@ -1,0 +1,27 @@
+[
+    {
+      "title": "Beulah's Development Portfolio",
+      "url": "https://beulahdev.onrender.com",
+      "tech": ["JavaScript", "React"],
+      "desc": "Designed and developed a portfolio website, showcasing proficiency in web development and design with a focus on user experience",
+      "img": "https://i.ibb.co/BjvM9BN/Screenshot-from-2023-09-11-23-01-02.png",
+      "githubUrl": "https://github.com/akibeulah/beulahdev"
+    },
+    {
+      "title": "Todo Application",
+      "url": "https://todoapp-3esd.onrender.com",
+      "tech": ["JavaScript", "TypeScript", "React"],
+      "desc": "Built a Todo application using React and TypeScript, demonstrating proficiency in modern web development and delivering a user-friendly interface.",
+      "img": "https://i.ibb.co/2YNWK1d/Screenshot-from-2023-09-11-22-33-38.png",
+      "githubUrl": "https://github.com/akibeulah/TodoApp"
+    },
+    {
+      "title": "Stalking Shadows React Library",
+      "url": "https://timely-kleicha-2df130.netlify.app/",
+      "tech": ["JavaScript", "TypeScript", "React"],
+      "desc": "A ReactJS library component for creating dynamic text shadows that shift with mouse movement or page scroll.",
+      "img": "https://i.ibb.co/dgWNCF1/Screenshot-from-2023-09-11-22-45-32.png",
+      "githubUrl": "https://github.com/akibeulah/stalking-shadows"
+    }
+  ]
+  
