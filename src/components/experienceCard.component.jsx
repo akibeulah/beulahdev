@@ -19,10 +19,10 @@ export const ExperienceCardComponent = ({time, title, company, desc, tech}) => {
                     }
                 </ul>
 
-                <div className="flex flex-row space-x-2 items-center">
+                <div className="flex flex-wrap space-x-2 items-center">
                     {
                         tech.map((i, k) =>
-                            <div className={"text-xs text-[#6ac9eb] my-1 bg-[#174859aa] py-1 px-2 rounded-full"} key={k}>
+                            <div className={"text-xs text-[#6ac9eb] my-1 bg-[#174859aa] py-1 px-2 rounded-full whitespace-nowrap"} key={k}>
                                 {i}
                             </div>
                         )
