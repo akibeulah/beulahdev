@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom/client'
 import {createBrowserRouter, RouterProvider,} from "react-router-dom";
 import App from './App.jsx'
 import './index.css'
-import {Blog} from "./pages/blog.jsx";
-import {Projects} from "./pages/projects.jsx";
-import {Experience} from "./pages/experience.jsx";
 import {Home} from "./pages/home.jsx";
 import {store} from "./store/index.js";
 import {Provider} from "react-redux";
 import ErrorPage from "./pages/errorPages.jsx";
+import {Experience} from "./pages/experience.jsx"
+import {Projects} from "./pages/projects.jsx"
+
 
 const router = createBrowserRouter([
     {
@@ -25,10 +25,10 @@ const router = createBrowserRouter([
                 path: "/projects",
                 element: <Projects/>
             },
-            {
-                path: "/blogs",
-                element: <Blog/>
-            },
+            // {
+            //     path: "/blogs",
+            //     element: <Blog/>
+            // },
             {
                 path: "/experience",
                 element: <Experience/>

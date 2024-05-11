@@ -1,17 +1,18 @@
 import './App.css'
-import {githubLogo, linkedinLogo, mediumLogo} from "./assets/index.js";
-import {useEffect, useRef, useState} from "react";
-import {Outlet} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {updateSiteData} from "./store/reducers/siteDataReducer.js";
-import { ToastContainer} from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import { githubLogo, linkedinLogo, mediumLogo } from "./assets/index.js";
+import { useEffect, useRef, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateSiteData } from "./store/reducers/siteDataReducer.js";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ExperienceJson from "./jsons/experience.json";
 
 function App() {
     const dispatch = useDispatch()
     const state = useSelector(state => state.siteData)
     const canvasRef = useRef(null);
-    const background = '#3b2f2b';
+    const background = '#d27e5a';
     const [cursorGradient, setCursorGradient] = useState(null)
     const radius = 300;
     // const [quoteSelector, setQuoteSelector] = useState(0)
@@ -32,8 +33,8 @@ function App() {
         );
 
         // Add color stops for the gradient (brighter in the center, fading to transparent)
-        radialGradient.addColorStop(0, 'rgb(76,64,60)');
-        radialGradient.addColorStop(1, 'rgb(59,47,43)');
+        radialGradient.addColorStop(0, 'rgb(240, 169, 137)');
+        radialGradient.addColorStop(1, '#d27e5a');
 
         ctx.fillStyle = radialGradient;
         ctx.beginPath();
@@ -84,12 +85,12 @@ function App() {
         createCursorGradient()
     }, []);
 
-    useEffect(() => {}, [])
+    useEffect(() => { }, [])
 
     return (
-        <div className={"bg-[#3b2f2b] text-[#e0bfb4] font-inter relative"}>
+        <div className={"bg-[#d27e5a] text-[#10549f] font-inter relative"}>
             <ToastContainer />
-            <canvas ref={canvasRef} className={"absolute top-0 left-0 right-0 bottom-0 h-screen w-screen z-0"}/>
+            <canvas ref={canvasRef} className={"absolute top-0 left-0 right-0 bottom-0 h-screen w-screen z-0"} />
 
             <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-10 px-4 lg:px-8 relative z-10">
                 <div className="py-24 lg:px-4 lg:col-span-4 lg:h-screen flex flex-col">
@@ -97,7 +98,7 @@ function App() {
                         <div className="mb-4">
                             <h4 className={"ml-0.5 text-sm font-light"}>My name is</h4>
                             <h4 className={"text-4xl lg:text-5xl mb-2 font-bold text-white "}>Akindele Beulah</h4>
-                            <h4 className={"text-xl lg:text-2xl font-medium"}>Backend Engineer at GetStep</h4>
+                            <h4 className={"text-xl lg:text-2xl font-medium"}>{ExperienceJson[0].title} at {ExperienceJson[0].company}</h4>
                         </div>
 
                         <div className="">
@@ -109,17 +110,17 @@ function App() {
 
                             <div className="flex lg:hidden flex-row justify-start items-center">
                                 <a href="https://github.com/akibeulah"
-                                   className="mr-4">
+                                    className="mr-4">
                                     <img className="w-20 lg:w-24" {...githubLogo} />
                                 </a>
 
                                 <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
-                                   className="mr-4">
+                                    className="mr-4">
                                     <img className="w-20 lg:w-24" {...linkedinLogo} />
                                 </a>
 
                                 <a href="https://medium.com/@akibeulah"
-                                   className="mr-4">
+                                    className="mr-4">
                                     <img className="w-20 lg:w-24" {...mediumLogo} />
                                 </a>
                             </div>
@@ -127,34 +128,34 @@ function App() {
 
                         <div className="hidden lg:flex flex-col space-y-2 py-8">
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
-                                    onClick={() => dispatch(updateSiteData({
-                                        name: "landingPageFocus",
-                                        value: "about"
-                                    }))}>About
+                                onClick={() => dispatch(updateSiteData({
+                                    name: "landingPageFocus",
+                                    value: "about"
+                                }))}>About
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
-                                    onClick={() => dispatch(updateSiteData({
-                                        name: "landingPageFocus",
-                                        value: "experience"
-                                    }))}>Experience
+                                onClick={() => dispatch(updateSiteData({
+                                    name: "landingPageFocus",
+                                    value: "experience"
+                                }))}>Experience
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
-                                    onClick={() => dispatch(updateSiteData({
-                                        name: "landingPageFocus",
-                                        value: "technologies"
-                                    }))}>Technologies
+                                onClick={() => dispatch(updateSiteData({
+                                    name: "landingPageFocus",
+                                    value: "technologies"
+                                }))}>Technologies
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
-                                    onClick={() => dispatch(updateSiteData({
-                                        name: "landingPageFocus",
-                                        value: "projects"
-                                    }))}>Projects
+                                onClick={() => dispatch(updateSiteData({
+                                    name: "landingPageFocus",
+                                    value: "projects"
+                                }))}>Projects
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
-                                    onClick={() => dispatch(updateSiteData({
-                                        name: "landingPageFocus",
-                                        value: "contact"
-                                    }))}>Contact Me
+                                onClick={() => dispatch(updateSiteData({
+                                    name: "landingPageFocus",
+                                    value: "contact"
+                                }))}>Contact Me
                             </button>
                         </div>
                     </div>
@@ -180,24 +181,24 @@ function App() {
 
                     <div className="hidden mt-auto lg:flex flex-row justify-start items-center">
                         <a href="https://github.com/akibeulah"
-                           className="mr-4">
+                            className="mr-4">
                             <img className="w-20 lg:w-24" {...githubLogo} />
                         </a>
 
                         <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
-                           className="mr-4">
+                            className="mr-4">
                             <img className="w-20 lg:w-24" {...linkedinLogo} />
                         </a>
 
                         <a href="https://medium.com/@akibeulah"
-                           className="mr-4">
+                            className="mr-4">
                             <img className="w-20 lg:w-24" {...mediumLogo} />
                         </a>
                     </div>
                 </div>
 
-                <div className="lg:px-4 lg:py-24 lg:col-span-6 lg:h-screen lg:overflow-scroll scrollbar-thin">
-                    <Outlet/>
+                <div className="lg:px-4 lg:py-24 lg:col-span-6 lg:h-screen overflow-x-hidden lg:overflow-scroll scrollbar-none">
+                    <Outlet />
                 </div>
             </div>
         </div>

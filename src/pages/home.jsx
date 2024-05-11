@@ -37,7 +37,7 @@ export const Home = () => {
                 <div className={"mb-16 text-sm lg:px-4"} ref={aboutRef} id="about">
                     <h4 className={"font-bold text-lg mb-4 text-white"}>ABOUT</h4>
 
-                    <p className={"mb-4"}>
+                    <p className={"mb-4 text-justify"}>
                         My programming journey began in 2016 after completing my secondary school studies. Eager
                         to
                         learn, I enrolled in Java and SQL classes, marking the start of my coding adventure. I
@@ -46,7 +46,7 @@ export const Home = () => {
                         new
                         skills and technologies
                     </p>
-                    <p className={"mb-4"}>
+                    <p className={"mb-4 text-justify"}>
                         Today, I've had the privilege of working on diverse projects for a range of businesses
                         and
                         individuals, including news agencies, e-commerce firms, fintech companies, and social
@@ -56,10 +56,10 @@ export const Home = () => {
                         developing products and services at GetStep. During my leisure time, I indulge in
                         engineering and programming projects.
                     </p>
-                    <p>
+                    <p className="text-justify
+                    ">
                         Outside of the programming world, I relish long walks, strumming my guitar, and engaging
-                        in
-                        board games with friends
+                        in board games with friends.
                     </p>
                 </div>
 
