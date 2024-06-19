@@ -24,6 +24,16 @@
     "img": "https://i.ibb.co/99h5zRM/presto-mart.png"
   },
   {
+    "title": "Concurrent Download Manager",
+    "url": "https://github.com/akibeulah/ConcurrentDownloadManager",
+    "tech": [
+      "Java"
+    ],
+    "desc": "Concurrent Download Manager (CDM) is a Java-based application that enables concurrent downloading of files from multiple URLs. The application provides a user-friendly interface for managing and monitoring download tasks. I built it to prove my proficiency in Java and will continue to improve upon it as time goes on.",
+    "img": "https://i.ibb.co/wRMhwHF/preview.png",
+    "githubUrl": "https://github.com/akibeulah/ConcurrentDownloadManager"
+  },
+  {
     "title": "Beulah's Development Portfolio",
     "url": "https://beulahdev.onrender.com",
     "tech": [
