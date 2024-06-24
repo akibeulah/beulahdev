@@ -1,11 +1,10 @@
-import { ExperienceCardComponent, ProjectsCard, TechnologiesCard } from "../components/experienceCard.component.jsx";
-import { Link } from "react-router-dom";
-import { backendTechnologies, databases, devOpsTools, frontendTechnologies, programmingLanguages } from "../utils.js";
-import { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import ExperienceJson from "../jsons/experience.json";
-import ProjectJson from "../jsons/projects.json";
-import { ContactPage } from "./contact.jsx";
+import {ExperienceCardComponent, ProjectsCard, TechnologiesCard} from "../components/experienceCard.component.jsx";
+import {Link} from "react-router-dom";
+import {backendTechnologies, databases, devOpsTools, frontendTechnologies, programmingLanguages} from "../utils.js";
+import {useEffect, useRef} from "react";
+import {useSelector} from "react-redux";
+import {ContactPage} from "./contact.jsx";
+import {ExperienceLoadingComponent, ProjectLoading} from "../components/experienceLoading.component.jsx";
 
 export const Home = () => {
     const state = useSelector(state => state.siteData)
@@ -27,7 +26,7 @@ export const Home = () => {
                 state.landingPageFocus === "experience" ? experienceRef.current :
                     state.landingPageFocus === "technologies" ? technologiesRef.current :
                         state.landingPageFocus === "projects" ? projectsRef.current : contactRef.current
-            scrollItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            scrollItem.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'start'});
         }
     }, [state.landingPageFocus])
 
@@ -68,15 +67,22 @@ export const Home = () => {
 
                     <div className="flex flex-col space-y-4">
                         {
-                            ExperienceJson.slice(0, 2).map((i, k) =>
-                                <ExperienceCardComponent
-                                    time={i.time}
-                                    title={i.title}
-                                    company={i.company}
-                                    desc={i.desc}
-                                    tech={i.tech}
-                                />
-                            )
+                            state.experience.length === 0 ?
+                                <>
+                                    <ExperienceLoadingComponent/>
+                                    <ExperienceLoadingComponent/>
+                                </>
+                                :
+                                state.experience.slice(0, 2).map((i, k) =>
+                                    <ExperienceCardComponent
+                                        key={k}
+                                        time={i.time}
+                                        title={i.title}
+                                        company={i.company}
+                                        desc={i.desc}
+                                        tech={i.tech}
+                                    />
+                                )
                         }
                     </div>
 
@@ -89,11 +95,11 @@ export const Home = () => {
                     <h4 className={"font-bold text-lg mb-4 text-white"}>TECHNOLOGIES</h4>
 
                     <div className="flex flex-col space-y-4">
-                        <TechnologiesCard title={"Programming Languages"} arr={programmingLanguages} />
-                        <TechnologiesCard title={"Frontend Frameworks"} arr={frontendTechnologies} />
-                        <TechnologiesCard title={"Backend Frameworks"} arr={backendTechnologies} />
-                        <TechnologiesCard title={"Databases"} arr={databases} />
-                        <TechnologiesCard title={"Dev Ops Tools"} arr={devOpsTools} />
+                        <TechnologiesCard title={"Programming Languages"} arr={programmingLanguages}/>
+                        <TechnologiesCard title={"Frontend Frameworks"} arr={frontendTechnologies}/>
+                        <TechnologiesCard title={"Backend Frameworks"} arr={backendTechnologies}/>
+                        <TechnologiesCard title={"Databases"} arr={databases}/>
+                        <TechnologiesCard title={"Dev Ops Tools"} arr={devOpsTools}/>
                     </div>
                 </div>
 
@@ -102,16 +108,21 @@ export const Home = () => {
 
                     <div className="flex flex-col space-y-4">
                         {
-                            ProjectJson.slice(0, 3).map((i, k) =>
-                                <ProjectsCard
-                                    title={i.title}
-                                    url={i.url}
-                                    tech={i.tech}
-                                    desc={i.desc}
-                                    img={i.img}
-                                    githubUrl={i.githubUrl}
-                                />
-                            )
+                            state.projects.length === 0 ?
+                                <>
+                                    <ProjectLoading/>
+                                    <ProjectLoading/>
+                                </> : state.projects.slice(0, 3).map((i, k) =>
+                                    <ProjectsCard
+                                        key={k}
+                                        title={i.title}
+                                        url={i.url}
+                                        tech={i.tech}
+                                        desc={i.desc}
+                                        img={i.img}
+                                        githubUrl={i.githubUrl}
+                                    />
+                                )
                         }
                     </div>
 
@@ -121,7 +132,7 @@ export const Home = () => {
                 </div>
 
                 <div ref={contactRef}>
-                    <ContactPage />
+                    <ContactPage/>
                 </div>
             </div>
         </>

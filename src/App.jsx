@@ -1,12 +1,12 @@
 import './App.css'
-import { githubLogo, linkedinLogo, mediumLogo } from "./assets/index.js";
-import { useEffect, useRef, useState } from "react";
-import { Outlet } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { updateSiteData } from "./store/reducers/siteDataReducer.js";
-import { ToastContainer } from 'react-toastify';
+import {githubLogo, linkedinLogo, mediumLogo} from "./assets/index.js";
+import {useEffect, useRef, useState} from "react";
+import {Outlet} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {updateSiteData} from "./store/reducers/siteDataReducer.js";
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ExperienceJson from "./jsons/experience.json";
+import axios from "axios";
 
 function App() {
     const dispatch = useDispatch()
@@ -16,6 +16,28 @@ function App() {
     const [cursorGradient, setCursorGradient] = useState(null)
     const radius = 300;
     // const [quoteSelector, setQuoteSelector] = useState(0)
+
+    useEffect(() => {
+        axios.get("https://api.jsonbin.io/v3/b/66795901acd3cb34a85c767f", {
+            headers: {
+                "X-Access-Key": "$2a$10$gf.eHfmaQVjYOYb0g7xHMecpYHrXI0Ns81drdB8X8K2i7WjIH.rb6",
+                "X-Master-Key": "$2a$10$O8mg5O4345x.InwWkqAyFOq97wImT.FIUB37b2BPFkdg8NWpeE0.K"
+            }
+        })
+            .then(response => {
+                dispatch(updateSiteData({name: "projects", value: response.data.record}))
+            })
+        axios.get("https://api.jsonbin.io/v3/b/667958f8acd3cb34a85c7679", {
+            headers: {
+                "X-Access-Key": "$2a$10$gf.eHfmaQVjYOYb0g7xHMecpYHrXI0Ns81drdB8X8K2i7WjIH.rb6",
+                "X-Master-Key": "$2a$10$O8mg5O4345x.InwWkqAyFOq97wImT.FIUB37b2BPFkdg8NWpeE0.K"
+            }
+        })
+            .then(response => {
+                dispatch(updateSiteData({name: "experience", value: response.data.record}))
+            })
+    }, []);
+
     function createCursorGradient() {
         const gradient = document.createElement('canvas');
         gradient.width = 2 * radius;
@@ -85,12 +107,13 @@ function App() {
         createCursorGradient()
     }, []);
 
-    useEffect(() => { }, [])
+    useEffect(() => {
+    }, [])
 
     return (
         <div className={"bg-[#d27e5a] text-[#10549f] font-inter relative"}>
-            <ToastContainer />
-            <canvas ref={canvasRef} className={"absolute top-0 left-0 right-0 bottom-0 h-screen w-screen z-0"} />
+            <ToastContainer/>
+            <canvas ref={canvasRef} className={"absolute top-0 left-0 right-0 bottom-0 h-screen w-screen z-0"}/>
 
             <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-10 px-4 lg:px-8 relative z-10">
                 <div className="py-24 lg:px-4 lg:col-span-4 lg:h-screen flex flex-col">
@@ -98,7 +121,17 @@ function App() {
                         <div className="mb-4">
                             <h4 className={"ml-0.5 text-sm font-light"}>My name is</h4>
                             <h4 className={"text-4xl lg:text-5xl mb-2 font-bold text-white "}>Akindele Beulah</h4>
-                            <h4 className={"text-xl lg:text-2xl font-medium"}>{ExperienceJson[0].title} at {ExperienceJson[0].company}</h4>
+                            {
+                                state.experience.length === 0 ?
+                                    <div className="py-4">
+                                        <div
+                                            className="block rounded-lg bg-gray-200 min-h-[20px] w-3/5 mb-0.5 content-[ ] animate-pulse"/>
+                                        <div
+                                            className="block rounded-lg bg-gray-200 min-h-[20px] w-2/5 content-[ ] animate-pulse"/>
+                                    </div> :
+
+                                    <h4 className={"text-xl lg:text-2xl font-medium"}>{state.experience[0].title} at {state.experience[0].company}</h4>
+                            }
                         </div>
 
                         <div className="">
@@ -110,17 +143,17 @@ function App() {
 
                             <div className="flex lg:hidden flex-row justify-start items-center">
                                 <a href="https://github.com/akibeulah"
-                                    className="mr-4">
+                                   className="mr-4">
                                     <img className="w-20 lg:w-24" {...githubLogo} />
                                 </a>
 
                                 <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
-                                    className="mr-4">
+                                   className="mr-4">
                                     <img className="w-20 lg:w-24" {...linkedinLogo} />
                                 </a>
 
                                 <a href="https://medium.com/@akibeulah"
-                                    className="mr-4">
+                                   className="mr-4">
                                     <img className="w-20 lg:w-24" {...mediumLogo} />
                                 </a>
                             </div>
@@ -128,34 +161,34 @@ function App() {
 
                         <div className="hidden lg:flex flex-col space-y-2 py-8">
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
-                                onClick={() => dispatch(updateSiteData({
-                                    name: "landingPageFocus",
-                                    value: "about"
-                                }))}>About
+                                    onClick={() => dispatch(updateSiteData({
+                                        name: "landingPageFocus",
+                                        value: "about"
+                                    }))}>About
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
-                                onClick={() => dispatch(updateSiteData({
-                                    name: "landingPageFocus",
-                                    value: "experience"
-                                }))}>Experience
+                                    onClick={() => dispatch(updateSiteData({
+                                        name: "landingPageFocus",
+                                        value: "experience"
+                                    }))}>Experience
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
-                                onClick={() => dispatch(updateSiteData({
-                                    name: "landingPageFocus",
-                                    value: "technologies"
-                                }))}>Technologies
+                                    onClick={() => dispatch(updateSiteData({
+                                        name: "landingPageFocus",
+                                        value: "technologies"
+                                    }))}>Technologies
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
-                                onClick={() => dispatch(updateSiteData({
-                                    name: "landingPageFocus",
-                                    value: "projects"
-                                }))}>Projects
+                                    onClick={() => dispatch(updateSiteData({
+                                        name: "landingPageFocus",
+                                        value: "projects"
+                                    }))}>Projects
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
-                                onClick={() => dispatch(updateSiteData({
-                                    name: "landingPageFocus",
-                                    value: "contact"
-                                }))}>Contact Me
+                                    onClick={() => dispatch(updateSiteData({
+                                        name: "landingPageFocus",
+                                        value: "contact"
+                                    }))}>Contact Me
                             </button>
                         </div>
                     </div>
@@ -181,24 +214,25 @@ function App() {
 
                     <div className="hidden mt-auto lg:flex flex-row justify-start items-center">
                         <a href="https://github.com/akibeulah"
-                            className="mr-4">
+                           className="mr-4">
                             <img className="w-20 lg:w-24" {...githubLogo} />
                         </a>
 
                         <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
-                            className="mr-4">
+                           className="mr-4">
                             <img className="w-20 lg:w-24" {...linkedinLogo} />
                         </a>
 
                         <a href="https://medium.com/@akibeulah"
-                            className="mr-4">
+                           className="mr-4">
                             <img className="w-20 lg:w-24" {...mediumLogo} />
                         </a>
                     </div>
                 </div>
 
-                <div className="lg:px-4 lg:py-24 lg:col-span-6 lg:h-screen overflow-x-hidden lg:overflow-scroll scrollbar-none">
-                    <Outlet />
+                <div
+                    className="lg:px-4 lg:py-24 lg:col-span-6 lg:h-screen overflow-x-hidden lg:overflow-scroll scrollbar-none">
+                    <Outlet/>
                 </div>
             </div>
         </div>

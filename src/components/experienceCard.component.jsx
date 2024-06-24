@@ -5,11 +5,11 @@ export const ExperienceCardComponent = ({time, title, company, desc, tech}) => {
 
     return (
         <div className={"grid grid-cols-1 md:grid-cols-8 md:gap-4 text-sm rounded-3xl lg:p-4 glass transition duration-300"}>
-            <div className="md:col-span-2">
-                {time}
-            </div>
             <div className="md:col-span-6">
-                <h4 className={"font-bold mb-2 text-white"}>{title} - {company}</h4>
+                <h4 className={"font-bold text-white text-lg"}>{title} - {company}</h4>
+                <div className="md:col-span-2 mb-2 font-bold text-white">
+                    {time}
+                </div>
 
                 <ul className={"text-sm list-disc ml-5 mb-2 text-xs"}>
                     {
@@ -22,7 +22,9 @@ export const ExperienceCardComponent = ({time, title, company, desc, tech}) => {
                 <div className="flex flex-wrap space-x-2 items-center">
                     {
                         tech.map((i, k) =>
-                            <div className={"text-xs text-[#6ac9eb] my-1 bg-[#174859aa] py-1 px-2 rounded-full whitespace-nowrap"} key={k}>
+                            <div
+                                className={"text-xs text-[#6ac9eb] my-1 bg-[#174859aa] py-1 px-2 rounded-full whitespace-nowrap"}
+                                key={k}>
                                 {i}
                             </div>
                         )
@@ -34,7 +36,6 @@ export const ExperienceCardComponent = ({time, title, company, desc, tech}) => {
 }
 
 export const TechnologiesCard = ({title, arr}) => {
-
     return (
         <>
             <div className={"grid grid-cols-1 md:grid-cols-8 md:gap-4 text-sm"}>

@@ -4,7 +4,12 @@ import tailwind_scrollbar from "tailwind-scrollbar"
 export default {
     content: ["./src/**/*.{html,jsx}"],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                primary: "#",
+                secondary: "#"
+            }
+        },
     },
     plugins: [
         tailwind_scrollbar,
