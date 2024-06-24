@@ -76,6 +76,7 @@ export const Home = () => {
                                 state.experience.slice(0, 2).map((i, k) =>
                                     <ExperienceCardComponent
                                         key={k}
+                                        keys={k}
                                         time={i.time}
                                         title={i.title}
                                         company={i.company}
@@ -115,12 +116,14 @@ export const Home = () => {
                                 </> : state.projects.slice(0, 3).map((i, k) =>
                                     <ProjectsCard
                                         key={k}
+                                        keys={k}
                                         title={i.title}
                                         url={i.url}
                                         tech={i.tech}
                                         desc={i.desc}
                                         img={i.img}
                                         githubUrl={i.githubUrl}
+                                        offset={-1000}
                                     />
                                 )
                         }

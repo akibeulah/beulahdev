@@ -23,9 +23,10 @@ export const Projects = () => {
                             <>
                                 <ProjectLoading/>
                                 <ProjectLoading/>
-                            </> : state.projects.slice(0, 3).map((i, k) =>
+                            </> : state.projects.map((i, k) =>
                                 <ProjectsCard
                                     key={k}
+                                    keys={k}
                                     title={i.title}
                                     url={i.url}
                                     tech={i.tech}

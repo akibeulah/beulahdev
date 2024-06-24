@@ -3,6 +3,7 @@ import {ChevronLeftIcon} from "@heroicons/react/20/solid/index.js";
 import {ExperienceCardComponent} from "../components/experienceCard.component.jsx";
 import {useSelector} from "react-redux";
 import {ExperienceLoadingComponent} from "../components/experienceLoading.component.jsx";
+import {useEffect} from "react";
 
 export const Experience = () => {
     const state = useSelector(state => state.siteData)
@@ -24,9 +25,10 @@ export const Experience = () => {
                             <ExperienceLoadingComponent/>
                         </>
                         :
-                        state.experience.slice(0, 2).map((i, k) =>
+                        state.experience.map((i, k) =>
                             <ExperienceCardComponent
                                 key={k}
+                                keys={k}
                                 time={i.time}
                                 title={i.title}
                                 company={i.company}

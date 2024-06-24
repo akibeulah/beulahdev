@@ -1,4 +1,5 @@
 import './App.css'
+import 'aos/dist/aos.css';
 import {githubLogo, linkedinLogo, mediumLogo} from "./assets/index.js";
 import {useEffect, useRef, useState} from "react";
 import {Outlet} from "react-router-dom";
@@ -7,6 +8,7 @@ import {updateSiteData} from "./store/reducers/siteDataReducer.js";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
+import AOS from "aos"
 
 function App() {
     const dispatch = useDispatch()
@@ -16,6 +18,7 @@ function App() {
     const [cursorGradient, setCursorGradient] = useState(null)
     const radius = 300;
     // const [quoteSelector, setQuoteSelector] = useState(0)
+    AOS.init()
 
     useEffect(() => {
         axios.get("https://api.jsonbin.io/v3/b/66795901acd3cb34a85c767f", {
@@ -120,18 +123,24 @@ function App() {
                     <div className="">
                         <div className="mb-4">
                             <h4 className={"ml-0.5 text-sm font-light"}>My name is</h4>
-                            <h4 className={"text-4xl lg:text-5xl mb-2 font-bold text-white "}>Akindele Beulah</h4>
-                            {
-                                state.experience.length === 0 ?
-                                    <div className="py-4">
-                                        <div
-                                            className="block rounded-lg bg-gray-200 min-h-[20px] w-3/5 mb-0.5 content-[ ] animate-pulse"/>
-                                        <div
-                                            className="block rounded-lg bg-gray-200 min-h-[20px] w-2/5 content-[ ] animate-pulse"/>
-                                    </div> :
+                            <div className="overflow-hidden">
+                                <h4 className={"text-4xl lg:text-5xl mb-2 font-bold text-white"}
+                                    data-aos={"slide-down"}>Akindele Beulah</h4>
+                            </div>
+                            <div className="overflow-hidden">
+                                {
+                                    state.experience.length === 0 ?
+                                        <div className="py-4">
+                                            <div
+                                                className="block rounded-lg bg-gray-200 min-h-[20px] w-3/5 mb-0.5 content-[ ] animate-pulse"/>
+                                            <div
+                                                className="block rounded-lg bg-gray-200 min-h-[20px] w-2/5 content-[ ] animate-pulse"/>
+                                        </div> :
 
-                                    <h4 className={"text-xl lg:text-2xl font-medium"}>{state.experience[0].title} at {state.experience[0].company}</h4>
-                            }
+                                        <h4 className={"text-xl lg:text-2xl font-medium"} data-aos={"slide-down"}
+                                            data-aos-delay={1000}>{state.experience[0].title} at {state.experience[0].company}</h4>
+                                }
+                            </div>
                         </div>
 
                         <div className="">
@@ -142,49 +151,59 @@ function App() {
                             </p>
 
                             <div className="flex lg:hidden flex-row justify-start items-center">
-                                <a href="https://github.com/akibeulah"
+                                <a href="https://github.com/akibeulah" data-aos={"fade-up"}
                                    className="mr-4">
                                     <img className="w-20 lg:w-24" {...githubLogo} />
                                 </a>
 
-                                <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
+                                <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/" data-aos={"fade-up"}
                                    className="mr-4">
                                     <img className="w-20 lg:w-24" {...linkedinLogo} />
                                 </a>
 
-                                <a href="https://medium.com/@akibeulah"
+                                <a href="https://medium.com/@akibeulah" data-aos={"fade-up"}
                                    className="mr-4">
                                     <img className="w-20 lg:w-24" {...mediumLogo} />
                                 </a>
                             </div>
                         </div>
 
-                        <div className="hidden lg:flex flex-col space-y-2 py-8">
+                        <div className="hidden lg:flex flex-col space-y-2 py-8 overflow-hidden">
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                                    data-aos={"slide-right"}
+                                    data-aos-delay={200}
                                     onClick={() => dispatch(updateSiteData({
                                         name: "landingPageFocus",
                                         value: "about"
                                     }))}>About
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                                    data-aos={"slide-right"}
+                                    data-aos-delay={400}
                                     onClick={() => dispatch(updateSiteData({
                                         name: "landingPageFocus",
                                         value: "experience"
                                     }))}>Experience
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                                    data-aos={"slide-right"}
+                                    data-aos-delay={600}
                                     onClick={() => dispatch(updateSiteData({
                                         name: "landingPageFocus",
                                         value: "technologies"
                                     }))}>Technologies
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                                    data-aos={"slide-right"}
+                                    data-aos-delay={800}
                                     onClick={() => dispatch(updateSiteData({
                                         name: "landingPageFocus",
                                         value: "projects"
                                     }))}>Projects
                             </button>
                             <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                                    data-aos={"slide-right"}
+                                    data-aos-delay={1000}
                                     onClick={() => dispatch(updateSiteData({
                                         name: "landingPageFocus",
                                         value: "contact"
