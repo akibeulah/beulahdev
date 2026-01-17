@@ -1,12 +1,10 @@
 import {InteractiveCard} from "./lightswind/interactive-card.jsx";
 
-export const ExperienceCardComponent = ({time, title, company, desc, tech, keys}) => {
+export const ExperienceCardComponent = ({time, title, company, desc, tech}) => {
     return (
         <InteractiveCard
             InteractiveColor="#64FFDA"
             className="glass-card p-6 lg:p-6 group"
-            data-aos="fade-up"
-            data-aos-delay={keys * 50}
         >
             <div className="mb-3">
                 <time className="text-xs text-[#64FFDA] uppercase tracking-wider font-medium">
@@ -39,7 +37,7 @@ export const ExperienceCardComponent = ({time, title, company, desc, tech, keys}
     );
 };
 
-export const ProjectsCard = ({title, url, tech, desc, img, githubUrl, keys}) => {
+export const ProjectsCard = ({title, url, tech, desc, img, githubUrl}) => {
     return (
         <InteractiveCard
             as="a"
@@ -48,8 +46,6 @@ export const ProjectsCard = ({title, url, tech, desc, img, githubUrl, keys}) => 
             rel="noopener noreferrer"
             InteractiveColor="#64FFDA"
             className="glass-card p-0 block group"
-            data-aos="fade-up"
-            data-aos-delay={keys * 50}
         >
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-0">
                 {/* Image Section */}
@@ -118,25 +114,18 @@ export const ProjectsCard = ({title, url, tech, desc, img, githubUrl, keys}) => 
     );
 };
 
-export const TechnologiesCard = ({title, arr, delay = 0}) => {
+export const TechnologiesCard = ({title, arr}) => {
     return (
         <InteractiveCard
             InteractiveColor="#64FFDA"
             className="glass-card p-6"
-            data-aos="fade-up"
-            data-aos-delay={delay}
         >
             <h5 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
                 {title}
             </h5>
             <div className="flex flex-wrap gap-2">
                 {arr.map((tech, index) => (
-                    <span
-                        key={index}
-                        className="glass-tag"
-                        data-aos="fade-up"
-                        data-aos-delay={delay + (index * 30)}
-                    >
+                    <span key={index} className="glass-tag">
                         {tech}
                     </span>
                 ))}

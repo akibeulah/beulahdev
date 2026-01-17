@@ -1,5 +1,4 @@
 import './App.css'
-import 'aos/dist/aos.css';
 import {githubLogo, linkedinLogo, mediumLogo} from "./assets/index.js";
 import {useEffect, useRef, useState} from "react";
 import {Outlet} from "react-router-dom";
@@ -8,7 +7,7 @@ import {updateSiteData} from "./store/reducers/siteDataReducer.js";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
-import AOS from "aos"
+import {FadeRight, FadeUp, SlideDown} from "./components/AnimationWrapper.jsx";
 
 function App() {
     const dispatch = useDispatch()
@@ -16,17 +15,10 @@ function App() {
     const canvasRef = useRef(null);
     const background = '#0A192F';
     const [cursorGradient, setCursorGradient] = useState(null)
-    const radius = 350; // Increased radius for smoother falloff
+    const radius = 350;
     const animationFrameRef = useRef(null);
     const mousePositionRef = useRef({ x: 0, y: 0 });
     const currentPositionRef = useRef({ x: 0, y: 0 });
-
-    AOS.init({
-        duration: 800,
-        easing: 'ease-out-cubic',
-        once: true,
-        mirror: false
-    })
 
     useEffect(() => {
         axios.get("https://api.jsonbin.io/v3/b/66795901acd3cb34a85c767f", {
@@ -56,11 +48,9 @@ function App() {
         gradient.height = size;
         const ctx = gradient.getContext('2d', { alpha: true });
 
-        // Enable image smoothing for better quality
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
 
-        // Create a radial gradient with smoother falloff
         const radialGradient = ctx.createRadialGradient(
             radius,
             radius,
@@ -70,11 +60,10 @@ function App() {
             radius
         );
 
-        // Improved color stops for smoother, more subtle gradient
-        radialGradient.addColorStop(0, 'rgba(100, 255, 218, 0.15)');     // Center - more subtle
-        radialGradient.addColorStop(0.3, 'rgba(100, 255, 218, 0.08)');   // Smooth transition
-        radialGradient.addColorStop(0.6, 'rgba(100, 255, 218, 0.03)');   // Further falloff
-        radialGradient.addColorStop(1, 'rgba(10, 25, 47, 0)');           // Fully transparent edge
+        radialGradient.addColorStop(0, 'rgba(100, 255, 218, 0.15)');
+        radialGradient.addColorStop(0.3, 'rgba(100, 255, 218, 0.08)');
+        radialGradient.addColorStop(0.6, 'rgba(100, 255, 218, 0.03)');
+        radialGradient.addColorStop(1, 'rgba(10, 25, 47, 0)');
 
         ctx.fillStyle = radialGradient;
         ctx.fillRect(0, 0, size, size);
@@ -88,7 +77,6 @@ function App() {
 
         const ctx = canvas.getContext('2d', { alpha: false });
 
-        // Set canvas size
         const resizeCanvas = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -96,19 +84,16 @@ function App() {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Smooth interpolation function (lerp)
         const lerp = (start, end, factor) => {
             return start + (end - start) * factor;
         };
 
-        // Animation loop with inertia
         const animate = () => {
             if (!cursorGradient) {
                 animationFrameRef.current = requestAnimationFrame(animate);
                 return;
             }
 
-            // Smooth following with inertia (adjust 0.08 for more/less drag)
             const smoothingFactor = 0.08;
             currentPositionRef.current.x = lerp(
                 currentPositionRef.current.x,
@@ -121,11 +106,9 @@ function App() {
                 smoothingFactor
             );
 
-            // Clear canvas
             ctx.fillStyle = background;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw gradient at smoothed position
             ctx.globalCompositeOperation = 'lighter';
             ctx.drawImage(
                 cursorGradient,
@@ -137,10 +120,8 @@ function App() {
             animationFrameRef.current = requestAnimationFrame(animate);
         };
 
-        // Start animation loop
         animate();
 
-        // Mouse move handler - just updates target position
         function handleMouseMove(event) {
             mousePositionRef.current.x = event.clientX;
             mousePositionRef.current.y = event.clientY;
@@ -172,22 +153,24 @@ function App() {
                         <div className="mb-4">
                             <h4 className={"ml-0.5 text-sm font-light"}>My name is</h4>
                             <div className="overflow-hidden">
-                                <h4 className={"text-4xl lg:text-5xl mb-2 font-bold text-[#64FFDA]"}
-                                    data-aos={"slide-down"}>Akindele Beulah</h4>
+                                <SlideDown>
+                                    <h4 className={"text-4xl lg:text-5xl mb-2 font-bold text-[#64FFDA]"}>
+                                        Akindele Beulah
+                                    </h4>
+                                </SlideDown>
                             </div>
                             <div className="overflow-hidden">
                                 {
                                     state.experience.length === 0 ?
                                         <div className="py-4">
-                                            <div
-                                                className="block rounded-lg bg-gray-200/10 min-h-[20px] w-3/5 mb-0.5 content-[ ] animate-pulse backdrop-blur-sm"/>
-                                            <div
-                                                className="block rounded-lg bg-gray-200/10 min-h-[20px] w-2/5 content-[ ] animate-pulse backdrop-blur-sm"/>
+                                            <div className="block rounded-lg bg-gray-200/10 min-h-[20px] w-3/5 mb-0.5 content-[ ] animate-pulse backdrop-blur-sm"/>
+                                            <div className="block rounded-lg bg-gray-200/10 min-h-[20px] w-2/5 content-[ ] animate-pulse backdrop-blur-sm"/>
                                         </div> :
-
-                                        <h4 className={"text-xl lg:text-2xl font-medium text-[#8892B0]"}
-                                            data-aos={"slide-down"}
-                                            data-aos-delay={200}>{state.experience[0].title} at {state.experience[0].company}</h4>
+                                        <SlideDown delay={200}>
+                                            <h4 className={"text-xl lg:text-2xl font-medium text-[#8892B0]"}>
+                                                {state.experience[0].title} at {state.experience[0].company}
+                                            </h4>
+                                        </SlideDown>
                                 }
                             </div>
                         </div>
@@ -209,80 +192,80 @@ function App() {
                             </ul>
 
                             <div className="flex lg:hidden flex-row justify-start items-center mt-8">
-                                <a href="https://github.com/akibeulah"
-                                   data-aos={"fade-up"}
-                                   data-aos-delay={100}
-                                   className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
-                                    <img className="w-20 lg:w-24" {...githubLogo} />
-                                </a>
+                                <FadeUp delay={100}>
+                                    <a href="https://github.com/akibeulah"
+                                       className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
+                                        <img className="w-20 lg:w-24" {...githubLogo} />
+                                    </a>
+                                </FadeUp>
 
-                                <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
-                                   data-aos={"fade-up"}
-                                   data-aos-delay={200}
-                                   className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
-                                    <img className="w-20 lg:w-24" {...linkedinLogo} />
-                                </a>
+                                <FadeUp delay={200}>
+                                    <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
+                                       className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
+                                        <img className="w-20 lg:w-24" {...linkedinLogo} />
+                                    </a>
+                                </FadeUp>
 
-                                <a href="https://medium.com/@akibeulah"
-                                   data-aos={"fade-up"}
-                                   data-aos-delay={300}
-                                   className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
-                                    <img className="w-20 lg:w-24" {...mediumLogo} />
-                                </a>
+                                <FadeUp delay={300}>
+                                    <a href="https://medium.com/@akibeulah"
+                                       className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
+                                        <img className="w-20 lg:w-24" {...mediumLogo} />
+                                    </a>
+                                </FadeUp>
                             </div>
                         </div>
 
                         <div className="hidden lg:flex flex-col space-y-3 py-8 overflow-hidden">
-                            <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
-                                state.landingPageFocus === "about" ? "text-[#64FFDA]" : "text-[#8892B0] hover:text-[#E6F1FF]"
-                            }`}
-                                    data-aos={"slide-right"}
-                                    data-aos-delay={100}
-                                    onClick={() => dispatch(updateSiteData({
-                                        name: "landingPageFocus",
-                                        value: "about"
-                                    }))}>About
-                            </button>
-                            <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
-                                state.landingPageFocus === "experience" ? "text-[#64FFDA]" : "text-[#8892B0] hover:text-[#E6F1FF]"
-                            }`}
-                                    data-aos={"slide-right"}
-                                    data-aos-delay={200}
-                                    onClick={() => dispatch(updateSiteData({
-                                        name: "landingPageFocus",
-                                        value: "experience"
-                                    }))}>Experience
-                            </button>
-                            <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
-                                state.landingPageFocus === "technologies" ? "text-[#64FFDA]" : "text-[#8892B0] hover:text-[#E6F1FF]"
-                            }`}
-                                    data-aos={"slide-right"}
-                                    data-aos-delay={300}
-                                    onClick={() => dispatch(updateSiteData({
-                                        name: "landingPageFocus",
-                                        value: "technologies"
-                                    }))}>Technologies
-                            </button>
-                            <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
-                                state.landingPageFocus === "projects" ? "text-[#64FFDA]" : "text-[#8892B0] hover:text-[#E6F1FF]"
-                            }`}
-                                    data-aos={"slide-right"}
-                                    data-aos-delay={400}
-                                    onClick={() => dispatch(updateSiteData({
-                                        name: "landingPageFocus",
-                                        value: "projects"
-                                    }))}>Projects
-                            </button>
-                            <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
-                                state.landingPageFocus === "contact" ? "text-[#64FFDA]" : "text-[#8892B0] hover:text-[#E6F1FF]"
-                            }`}
-                                    data-aos={"slide-right"}
-                                    data-aos-delay={500}
-                                    onClick={() => dispatch(updateSiteData({
-                                        name: "landingPageFocus",
-                                        value: "contact"
-                                    }))}>Contact Me
-                            </button>
+                            <FadeRight delay={100}>
+                                <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
+                                    state.landingPageFocus === "about" ? "active" : "text-[#8892B0] hover:text-[#E6F1FF]"
+                                }`}
+                                        onClick={() => dispatch(updateSiteData({
+                                            name: "landingPageFocus",
+                                            value: "about"
+                                        }))}>About
+                                </button>
+                            </FadeRight>
+                            <FadeRight delay={200}>
+                                <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
+                                    state.landingPageFocus === "experience" ? "active" : "text-[#8892B0] hover:text-[#E6F1FF]"
+                                }`}
+                                        onClick={() => dispatch(updateSiteData({
+                                            name: "landingPageFocus",
+                                            value: "experience"
+                                        }))}>Experience
+                                </button>
+                            </FadeRight>
+                            <FadeRight delay={300}>
+                                <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
+                                    state.landingPageFocus === "technologies" ? "active" : "text-[#8892B0] hover:text-[#E6F1FF]"
+                                }`}
+                                        onClick={() => dispatch(updateSiteData({
+                                            name: "landingPageFocus",
+                                            value: "technologies"
+                                        }))}>Technologies
+                                </button>
+                            </FadeRight>
+                            <FadeRight delay={400}>
+                                <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
+                                    state.landingPageFocus === "projects" ? "active" : "text-[#8892B0] hover:text-[#E6F1FF]"
+                                }`}
+                                        onClick={() => dispatch(updateSiteData({
+                                            name: "landingPageFocus",
+                                            value: "projects"
+                                        }))}>Projects
+                                </button>
+                            </FadeRight>
+                            <FadeRight delay={500}>
+                                <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
+                                    state.landingPageFocus === "contact" ? "active" : "text-[#8892B0] hover:text-[#E6F1FF]"
+                                }`}
+                                        onClick={() => dispatch(updateSiteData({
+                                            name: "landingPageFocus",
+                                            value: "contact"
+                                        }))}>Contact Me
+                                </button>
+                            </FadeRight>
                         </div>
                     </div>
 
@@ -304,8 +287,7 @@ function App() {
                     </div>
                 </div>
 
-                <div
-                    className="lg:px-4 lg:py-24 lg:col-span-6 lg:h-screen overflow-x-hidden lg:overflow-scroll scrollbar-none">
+                <div className="lg:px-4 lg:py-24 lg:col-span-6 lg:h-screen overflow-x-hidden lg:overflow-scroll scrollbar-none">
                     <Outlet/>
                 </div>
             </div>
