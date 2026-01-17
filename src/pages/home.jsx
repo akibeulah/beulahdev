@@ -37,28 +37,24 @@ export const Home = () => {
                     <h4 className={"font-bold text-lg mb-4 text-white"}>ABOUT</h4>
 
                     <p className={"mb-4 text-justify"}>
-                        My programming journey began in 2016 after completing my secondary school studies. Eager
-                        to
-                        learn, I enrolled in Java and SQL classes, marking the start of my coding adventure. I
-                        ventured into Android app development and soon found myself building APIs and web
-                        applications, driven by the need for a server. Along the way, I continuously acquired
-                        new
-                        skills and technologies
+                        Principal Fullstack Software Engineer with 4+ years of experience designing, developing, and deploying scalable, high-performance software solutions across fintech, enterprise, and tech-driven environments. I specialize in bridging complex technical systems with business objectives through innovative architecture, automation, and user-focused design.
                     </p>
+                    
                     <p className={"mb-4 text-justify"}>
-                        Today, I've had the privilege of working on diverse projects for a range of businesses
-                        and
-                        individuals, including news agencies, e-commerce firms, fintech companies, and social
-                        media
-                        agencies. This journey has been incredibly rewarding. Currently, my primary focus lies
-                        in
-                        developing products and services at GetStep. During my leisure time, I indulge in
-                        engineering and programming projects.
+                    At Qore Technologies, I implemented an automation system that reduced operational processing time by 99.75%, driving significant productivity gains and cost savings. Previously, I delivered enterprise-grade applications supporting foreign exchange trade and risk management operations for major African banks, integrating with Calypso and other finance enterprise platforms. I also developed and optimized machine learning models and APIs that improved production performance by up to 450%.
                     </p>
+                    
+                     <p className={"mb-4 text-justify"}>
+                    My expertise spans full-stack development, financial systems integration, microservices architecture, and backend optimization. I work across languages and frameworks including C#, JavaScript, Python, Java, and modern DevOps tools such as Docker, AWS, and Kubernetes.
+                    </p>
+                    
+                    <p className={"mb-4 text-justify"}>
+                        Beyond engineering, I mentor junior developers, establish best practices, and foster collaborative, high-performing teams. I combine analytical problem-solving with strategic communication to ensure solutions are scalable, resilient, and aligned with business goals.
+                    </p>
+                        
                     <p className="text-justify
                     ">
-                        Outside of the programming world, I relish long walks, strumming my guitar, and engaging
-                        in board games with friends.
+                        Driven by curiosity and continuous learning, I stay engaged with emerging technologies in AI, automation, and financial software architecture. My mission is to build impactful digital products that streamline operations, enhance accessibility, and deliver measurable business results.
                     </p>
                 </div>
 
