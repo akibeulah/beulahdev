@@ -14,7 +14,7 @@ function App() {
     const dispatch = useDispatch()
     const state = useSelector(state => state.siteData)
     const canvasRef = useRef(null);
-    const background = '#d27e5a';
+    const background = '#0A192F';
     const [cursorGradient, setCursorGradient] = useState(null)
     const radius = 300;
     // const [quoteSelector, setQuoteSelector] = useState(0)
@@ -58,8 +58,8 @@ function App() {
         );
 
         // Add color stops for the gradient (brighter in the center, fading to transparent)
-        radialGradient.addColorStop(0, 'rgb(240, 169, 137)');
-        radialGradient.addColorStop(1, '#d27e5a');
+radialGradient.addColorStop(0, '#64FFDA40');  // Cyan with transparency
+radialGradient.addColorStop(1, '#0A192F');
 
         ctx.fillStyle = radialGradient;
         ctx.beginPath();
@@ -114,7 +114,7 @@ function App() {
     }, [])
 
     return (
-        <div className={"bg-[#d27e5a] text-[#10549f] font-inter relative"}>
+        <div className={"bg-[#0A192F] text-[#E6F1FF] font-inter relative"}>
             <ToastContainer/>
             <canvas ref={canvasRef} className={"absolute top-0 left-0 right-0 bottom-0 h-screen w-screen z-0"}/>
 
@@ -124,7 +124,7 @@ function App() {
                         <div className="mb-4">
                             <h4 className={"ml-0.5 text-sm font-light"}>My name is</h4>
                             <div className="overflow-hidden">
-                                <h4 className={"text-4xl lg:text-5xl mb-2 font-bold text-white"}
+                                <h4 className={"text-4xl lg:text-5xl mb-2 font-bold text-[#64FFDA]"}
                                     data-aos={"slide-down"}>Akindele Beulah</h4>
                             </div>
                             <div className="overflow-hidden">
@@ -137,7 +137,7 @@ function App() {
                                                 className="block rounded-lg bg-gray-200 min-h-[20px] w-2/5 content-[ ] animate-pulse"/>
                                         </div> :
 
-                                        <h4 className={"text-xl lg:text-2xl font-medium"} data-aos={"slide-down"}
+<h4 className={"text-xl lg:text-2xl font-medium text-[#8892B0]"} data-aos={"slide-down"}
                                             data-aos-delay={1000}>{state.experience[0].title} at {state.experience[0].company}</h4>
                                 }
                             </div>
