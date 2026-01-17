@@ -6,8 +6,13 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: "#",
-                secondary: "#"
+  background: '#0A192F',      // Deep navy
+  bgLight: '#112240',         // Slightly lighter navy
+  text: '#E6F1FF',            // Off-white
+  textSecondary: '#8892B0',   // Muted blue-gray
+  accent: '#64FFDA',          // Bright cyan/teal
+  accentHover: '#57E6C5',     // Darker teal
+  highlight: '#F97316',       // Orange highlight
             }
         },
     },
