@@ -145,9 +145,7 @@ function App() {
 
                         <div className="">
                             <p className={"mb-8 lg:mb-0"}>
-                                I build scalable and efficient tools and services to facilitate project requirements
-                                while
-                                maintaining industry standards
+                                I architect scalable backend systems for fintech and banking infrastructure, specializing in payment processing, data migration, and microservices that power critical financial operations.
                             </p>
 
                             <div className="flex lg:hidden flex-row justify-start items-center">
