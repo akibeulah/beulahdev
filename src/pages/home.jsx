@@ -34,32 +34,39 @@ export const Home = () => {
         <>
             <div className="">
                 <div className={"mb-16 text-sm lg:px-4"} ref={aboutRef} id="about">
-                    <h4 className={"font-bold text-lg mb-4 text-white"}>ABOUT</h4>
+                    <h4 className={"font-bold text-lg mb-6 text-white uppercase tracking-wide"}
+                        data-aos="fade-up">
+                        About
+                    </h4>
 
-                    <p className={"mb-4 text-justify"}>
-                        Principal Fullstack Software Engineer with 4+ years of experience designing, developing, and deploying scalable, high-performance software solutions across fintech, enterprise, and tech-driven environments. I specialize in bridging complex technical systems with business objectives through innovative architecture, automation, and user-focused design.
-                    </p>
-                    
-                    <p className={"mb-4 text-justify"}>
-                    At Qore Technologies, I implemented an automation system that reduced operational processing time by 99.75%, driving significant productivity gains and cost savings. Previously, I delivered enterprise-grade applications supporting foreign exchange trade and risk management operations for major African banks, integrating with Calypso and other finance enterprise platforms. I also developed and optimized machine learning models and APIs that improved production performance by up to 450%.
-                    </p>
-                    
-                     <p className={"mb-4 text-justify"}>
-                    My expertise spans full-stack development, financial systems integration, microservices architecture, and backend optimization. I work across languages and frameworks including C#, JavaScript, Python, Java, and modern DevOps tools such as Docker, AWS, and Kubernetes.
-                    </p>
-                    
-                    <p className={"mb-4 text-justify"}>
-                        Beyond engineering, I mentor junior developers, establish best practices, and foster collaborative, high-performing teams. I combine analytical problem-solving with strategic communication to ensure solutions are scalable, resilient, and aligned with business goals.
-                    </p>
-                        
-                    <p className="text-justify
-                    ">
-                        Driven by curiosity and continuous learning, I stay engaged with emerging technologies in AI, automation, and financial software architecture. My mission is to build impactful digital products that streamline operations, enhance accessibility, and deliver measurable business results.
-                    </p>
+                    <div className="space-y-4 text-[#8892B0]" data-aos="fade-up" data-aos-delay="100">
+                        <p className={"text-justify leading-relaxed"}>
+                            Principal Fullstack Software Engineer with 4+ years of experience designing, developing, and deploying scalable, high-performance software solutions across fintech, enterprise, and tech-driven environments. I specialize in bridging complex technical systems with business objectives through innovative architecture, automation, and user-focused design.
+                        </p>
+
+                        <p className={"text-justify leading-relaxed"}>
+                            At Qore Technologies, I implemented an automation system that reduced operational processing time by <span className="text-[#64FFDA] font-semibold">99.75%</span>, driving significant productivity gains and cost savings. Previously, I delivered enterprise-grade applications supporting foreign exchange trade and risk management operations for major African banks, integrating with Calypso and other finance enterprise platforms. I also developed and optimized machine learning models and APIs that improved production performance by up to <span className="text-[#64FFDA] font-semibold">450%</span>.
+                        </p>
+
+                        <p className={"text-justify leading-relaxed"}>
+                            My expertise spans full-stack development, financial systems integration, microservices architecture, and backend optimization. I work across languages and frameworks including C#, JavaScript, Python, Java, and modern DevOps tools such as Docker, AWS, and Kubernetes.
+                        </p>
+
+                        <p className={"text-justify leading-relaxed"}>
+                            Beyond engineering, I mentor junior developers, establish best practices, and foster collaborative, high-performing teams. I combine analytical problem-solving with strategic communication to ensure solutions are scalable, resilient, and aligned with business goals.
+                        </p>
+
+                        <p className="text-justify leading-relaxed">
+                            Driven by curiosity and continuous learning, I stay engaged with emerging technologies in AI, automation, and financial software architecture. My mission is to build impactful digital products that streamline operations, enhance accessibility, and deliver measurable business results.
+                        </p>
+                    </div>
                 </div>
 
                 <div ref={experienceRef} id="experience" className={"mb-16"}>
-                    <h4 className={"font-bold text-lg mb-4 text-white lg:px-4"}>EXPERIENCE</h4>
+                    <h4 className={"font-bold text-lg mb-6 text-white lg:px-4 uppercase tracking-wide"}
+                        data-aos="fade-up">
+                        Experience
+                    </h4>
 
                     <div className="flex flex-col space-y-4">
                         {
@@ -83,25 +90,40 @@ export const Home = () => {
                         }
                     </div>
 
-                    <div className="lg:p-4 text-sm">
-                        <Link to={"/experience"}>See all roles</Link>
+                    <div className="lg:p-4 text-sm mt-6" data-aos="fade-up">
+                        <Link to={"/experience"}
+                              className="inline-flex items-center text-[#64FFDA] hover:text-[#64FFDA] group transition-all duration-300">
+                            <span className="mr-2">View Full Resume</span>
+                            <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </Link>
                     </div>
                 </div>
 
                 <div ref={technologiesRef} id="technologies" className={"mb-16 lg:px-4"}>
-                    <h4 className={"font-bold text-lg mb-4 text-white"}>TECHNOLOGIES</h4>
+                    <h4 className={"font-bold text-lg mb-6 text-white uppercase tracking-wide"}
+                        data-aos="fade-up">
+                        Technologies
+                    </h4>
 
                     <div className="flex flex-col space-y-4">
-                        <TechnologiesCard title={"Programming Languages"} arr={programmingLanguages}/>
-                        <TechnologiesCard title={"Frontend Frameworks"} arr={frontendTechnologies}/>
-                        <TechnologiesCard title={"Backend Frameworks"} arr={backendTechnologies}/>
-                        <TechnologiesCard title={"Databases"} arr={databases}/>
-                        <TechnologiesCard title={"Dev Ops Tools"} arr={devOpsTools}/>
+                        <TechnologiesCard title={"Programming Languages"} arr={programmingLanguages} delay={0}/>
+                        <TechnologiesCard title={"Frontend Frameworks"} arr={frontendTechnologies} delay={100}/>
+                        <TechnologiesCard title={"Backend Frameworks"} arr={backendTechnologies} delay={200}/>
+                        <TechnologiesCard title={"Databases"} arr={databases} delay={300}/>
+                        <TechnologiesCard title={"Dev Ops Tools"} arr={devOpsTools} delay={400}/>
                     </div>
                 </div>
 
                 <div ref={projectsRef} id="projects" className={"mb-16 lg:px-4"}>
-                    <h4 className={"font-bold text-lg mb-4 text-white"}>PROJECTS</h4>
+                    <h4 className={"font-bold text-lg mb-6 text-white uppercase tracking-wide"}
+                        data-aos="fade-up">
+                        Projects
+                    </h4>
 
                     <div className="flex flex-col space-y-4">
                         {
@@ -125,8 +147,17 @@ export const Home = () => {
                         }
                     </div>
 
-                    <div className="lg:py-4 text-sm">
-                        <Link to={"/projects"}>See all projects</Link>
+                    <div className="lg:py-4 text-sm mt-6" data-aos="fade-up">
+                        <Link to={"/projects"}
+                              className="inline-flex items-center text-[#64FFDA] hover:text-[#64FFDA] group transition-all duration-300">
+                            <span className="mr-2">View All Projects</span>
+                            <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </Link>
                     </div>
                 </div>
 

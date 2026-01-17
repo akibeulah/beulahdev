@@ -17,6 +17,7 @@ export default {
         },
     },
     plugins: [
+    require('lightswind/plugin'),
         tailwind_scrollbar,
     ],
 }

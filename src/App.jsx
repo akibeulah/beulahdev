@@ -16,9 +16,17 @@ function App() {
     const canvasRef = useRef(null);
     const background = '#0A192F';
     const [cursorGradient, setCursorGradient] = useState(null)
-    const radius = 300;
-    // const [quoteSelector, setQuoteSelector] = useState(0)
-    AOS.init()
+    const radius = 350; // Increased radius for smoother falloff
+    const animationFrameRef = useRef(null);
+    const mousePositionRef = useRef({ x: 0, y: 0 });
+    const currentPositionRef = useRef({ x: 0, y: 0 });
+
+    AOS.init({
+        duration: 800,
+        easing: 'ease-out-cubic',
+        once: true,
+        mirror: false
+    })
 
     useEffect(() => {
         axios.get("https://api.jsonbin.io/v3/b/66795901acd3cb34a85c767f", {
@@ -43,11 +51,16 @@ function App() {
 
     function createCursorGradient() {
         const gradient = document.createElement('canvas');
-        gradient.width = 2 * radius;
-        gradient.height = 2 * radius;
-        const ctx = gradient.getContext('2d');
+        const size = radius * 2;
+        gradient.width = size;
+        gradient.height = size;
+        const ctx = gradient.getContext('2d', { alpha: true });
 
-        // Create a radial gradient from the center to the edges
+        // Enable image smoothing for better quality
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+
+        // Create a radial gradient with smoother falloff
         const radialGradient = ctx.createRadialGradient(
             radius,
             radius,
@@ -57,52 +70,90 @@ function App() {
             radius
         );
 
-        // Add color stops for the gradient (brighter in the center, fading to transparent)
-radialGradient.addColorStop(0, '#64FFDA40');  // Cyan with transparency
-radialGradient.addColorStop(1, '#0A192F');
+        // Improved color stops for smoother, more subtle gradient
+        radialGradient.addColorStop(0, 'rgba(100, 255, 218, 0.15)');     // Center - more subtle
+        radialGradient.addColorStop(0.3, 'rgba(100, 255, 218, 0.08)');   // Smooth transition
+        radialGradient.addColorStop(0.6, 'rgba(100, 255, 218, 0.03)');   // Further falloff
+        radialGradient.addColorStop(1, 'rgba(10, 25, 47, 0)');           // Fully transparent edge
 
         ctx.fillStyle = radialGradient;
-        ctx.beginPath();
-        ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
-        ctx.fill();
+        ctx.fillRect(0, 0, size, size);
 
         setCursorGradient(gradient);
     }
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        let mouseX = 0;
-        let mouseY = 0;
+        if (!canvas) return;
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d', { alpha: false });
 
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Set canvas size
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Smooth interpolation function (lerp)
+        const lerp = (start, end, factor) => {
+            return start + (end - start) * factor;
+        };
+
+        // Animation loop with inertia
+        const animate = () => {
+            if (!cursorGradient) {
+                animationFrameRef.current = requestAnimationFrame(animate);
+                return;
+            }
+
+            // Smooth following with inertia (adjust 0.08 for more/less drag)
+            const smoothingFactor = 0.08;
+            currentPositionRef.current.x = lerp(
+                currentPositionRef.current.x,
+                mousePositionRef.current.x,
+                smoothingFactor
+            );
+            currentPositionRef.current.y = lerp(
+                currentPositionRef.current.y,
+                mousePositionRef.current.y,
+                smoothingFactor
+            );
+
+            // Clear canvas
             ctx.fillStyle = background;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
 
-        function drawCursorLight() {
-            clearCanvas();
+            // Draw gradient at smoothed position
+            ctx.globalCompositeOperation = 'lighter';
             ctx.drawImage(
                 cursorGradient,
-                mouseX - radius,
-                mouseY - radius
+                currentPositionRef.current.x - radius,
+                currentPositionRef.current.y - radius
             );
-        }
+            ctx.globalCompositeOperation = 'source-over';
 
+            animationFrameRef.current = requestAnimationFrame(animate);
+        };
+
+        // Start animation loop
+        animate();
+
+        // Mouse move handler - just updates target position
         function handleMouseMove(event) {
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-            drawCursorLight();
+            mousePositionRef.current.x = event.clientX;
+            mousePositionRef.current.y = event.clientY;
         }
 
         window.addEventListener('mousemove', handleMouseMove);
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('resize', resizeCanvas);
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
         };
     }, [cursorGradient]);
 
@@ -110,13 +161,10 @@ radialGradient.addColorStop(1, '#0A192F');
         createCursorGradient()
     }, []);
 
-    useEffect(() => {
-    }, [])
-
     return (
         <div className={"bg-[#0A192F] text-[#E6F1FF] font-inter relative"}>
             <ToastContainer/>
-            <canvas ref={canvasRef} className={"absolute top-0 left-0 right-0 bottom-0 h-screen w-screen z-0"}/>
+            <canvas ref={canvasRef} className={"fixed top-0 left-0 w-full h-full z-0 pointer-events-none"}/>
 
             <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-10 px-4 lg:px-8 relative z-10">
                 <div className="py-24 lg:px-4 lg:col-span-4 lg:h-screen flex flex-col">
@@ -132,76 +180,104 @@ radialGradient.addColorStop(1, '#0A192F');
                                     state.experience.length === 0 ?
                                         <div className="py-4">
                                             <div
-                                                className="block rounded-lg bg-gray-200 min-h-[20px] w-3/5 mb-0.5 content-[ ] animate-pulse"/>
+                                                className="block rounded-lg bg-gray-200/10 min-h-[20px] w-3/5 mb-0.5 content-[ ] animate-pulse backdrop-blur-sm"/>
                                             <div
-                                                className="block rounded-lg bg-gray-200 min-h-[20px] w-2/5 content-[ ] animate-pulse"/>
+                                                className="block rounded-lg bg-gray-200/10 min-h-[20px] w-2/5 content-[ ] animate-pulse backdrop-blur-sm"/>
                                         </div> :
 
-<h4 className={"text-xl lg:text-2xl font-medium text-[#8892B0]"} data-aos={"slide-down"}
-                                            data-aos-delay={1000}>{state.experience[0].title} at {state.experience[0].company}</h4>
+                                        <h4 className={"text-xl lg:text-2xl font-medium text-[#8892B0]"}
+                                            data-aos={"slide-down"}
+                                            data-aos-delay={200}>{state.experience[0].title} at {state.experience[0].company}</h4>
                                 }
                             </div>
                         </div>
 
                         <div className="">
-                            <p className={"mb-8 lg:mb-0"}>
-                                I architect scalable backend systems for fintech and banking infrastructure, specializing in payment processing, data migration, and microservices that power critical financial operations.
+                            <p className={"mb-4 text-[#8892B0] leading-relaxed"}>
+                                I architect scalable backend systems for mission-critical fintech and banking infrastructure,
+                                specializing in payment processing, data migration, and microservices that power
+                                critical financial operations.
                             </p>
 
-                            <div className="flex lg:hidden flex-row justify-start items-center">
-                                <a href="https://github.com/akibeulah" data-aos={"fade-up"}
-                                   className="mr-4">
+                            <p className={"text-[#8892B0] leading-relaxed"}>
+                                Fun facts about:
+                            </p>
+                            <ul className={"mb-8 lg:mb-0 ml-8 list-disc text-[#8892B0] leading-relaxed"}>
+                                <li>I'm a bit of a minimalist</li>
+                                <li>I play guitar in my free time</li>
+                                <li>I moonlight as a mechanic</li>
+                            </ul>
+
+                            <div className="flex lg:hidden flex-row justify-start items-center mt-8">
+                                <a href="https://github.com/akibeulah"
+                                   data-aos={"fade-up"}
+                                   data-aos-delay={100}
+                                   className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
                                     <img className="w-20 lg:w-24" {...githubLogo} />
                                 </a>
 
-                                <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/" data-aos={"fade-up"}
-                                   className="mr-4">
+                                <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
+                                   data-aos={"fade-up"}
+                                   data-aos-delay={200}
+                                   className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
                                     <img className="w-20 lg:w-24" {...linkedinLogo} />
                                 </a>
 
-                                <a href="https://medium.com/@akibeulah" data-aos={"fade-up"}
-                                   className="mr-4">
+                                <a href="https://medium.com/@akibeulah"
+                                   data-aos={"fade-up"}
+                                   data-aos-delay={300}
+                                   className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
                                     <img className="w-20 lg:w-24" {...mediumLogo} />
                                 </a>
                             </div>
                         </div>
 
-                        <div className="hidden lg:flex flex-col space-y-2 py-8 overflow-hidden">
-                            <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                        <div className="hidden lg:flex flex-col space-y-3 py-8 overflow-hidden">
+                            <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
+                                state.landingPageFocus === "about" ? "text-[#64FFDA]" : "text-[#8892B0] hover:text-[#E6F1FF]"
+                            }`}
                                     data-aos={"slide-right"}
-                                    data-aos-delay={200}
+                                    data-aos-delay={100}
                                     onClick={() => dispatch(updateSiteData({
                                         name: "landingPageFocus",
                                         value: "about"
                                     }))}>About
                             </button>
-                            <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                            <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
+                                state.landingPageFocus === "experience" ? "text-[#64FFDA]" : "text-[#8892B0] hover:text-[#E6F1FF]"
+                            }`}
                                     data-aos={"slide-right"}
-                                    data-aos-delay={400}
+                                    data-aos-delay={200}
                                     onClick={() => dispatch(updateSiteData({
                                         name: "landingPageFocus",
                                         value: "experience"
                                     }))}>Experience
                             </button>
-                            <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                            <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
+                                state.landingPageFocus === "technologies" ? "text-[#64FFDA]" : "text-[#8892B0] hover:text-[#E6F1FF]"
+                            }`}
                                     data-aos={"slide-right"}
-                                    data-aos-delay={600}
+                                    data-aos-delay={300}
                                     onClick={() => dispatch(updateSiteData({
                                         name: "landingPageFocus",
                                         value: "technologies"
                                     }))}>Technologies
                             </button>
-                            <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                            <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
+                                state.landingPageFocus === "projects" ? "text-[#64FFDA]" : "text-[#8892B0] hover:text-[#E6F1FF]"
+                            }`}
                                     data-aos={"slide-right"}
-                                    data-aos-delay={800}
+                                    data-aos-delay={400}
                                     onClick={() => dispatch(updateSiteData({
                                         name: "landingPageFocus",
                                         value: "projects"
                                     }))}>Projects
                             </button>
-                            <button className={"uppercase text-sm font-medium lined relative w-fit"}
+                            <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
+                                state.landingPageFocus === "contact" ? "text-[#64FFDA]" : "text-[#8892B0] hover:text-[#E6F1FF]"
+                            }`}
                                     data-aos={"slide-right"}
-                                    data-aos-delay={1000}
+                                    data-aos-delay={500}
                                     onClick={() => dispatch(updateSiteData({
                                         name: "landingPageFocus",
                                         value: "contact"
@@ -210,38 +286,19 @@ radialGradient.addColorStop(1, '#0A192F');
                         </div>
                     </div>
 
-                    {/*<div className="">*/}
-                    {/*    <div className="white overflow-hidden">*/}
-                    {/*        <div className="p-4 relative">*/}
-                    {/*            <span className="absolute top-0 left-0 text-5xl fill-current">"</span>*/}
-
-                    {/*            <blockquote className="text-lg italic mt-2 mb-4">*/}
-                    {/*                {state.quotes[quoteSelector].quote}*/}
-                    {/*            </blockquote>*/}
-
-                    {/*            <span className="absolute bottom-0 right-0 text-5xl fill-current">"</span>*/}
-
-                    {/*            <p className="text-sm">*/}
-                    {/*                <span className="text-lg">-</span>*/}
-                    {/*                {state.quotes[quoteSelector].author}*/}
-                    {/*            </p>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-
                     <div className="hidden mt-auto lg:flex flex-row justify-start items-center">
                         <a href="https://github.com/akibeulah"
-                           className="mr-4">
+                           className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
                             <img className="w-20 lg:w-24" {...githubLogo} />
                         </a>
 
                         <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
-                           className="mr-4">
+                           className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
                             <img className="w-20 lg:w-24" {...linkedinLogo} />
                         </a>
 
                         <a href="https://medium.com/@akibeulah"
-                           className="mr-4">
+                           className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
                             <img className="w-20 lg:w-24" {...mediumLogo} />
                         </a>
                     </div>
