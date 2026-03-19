@@ -2,6 +2,161 @@
 @tailwind components;
 @tailwind utilities;
 
-.font-inter {
-    font-family: 'Inter', sans-serif;
+:root {
+    --bg-base: #0A0A0F;
+    --bg-card: #111118;
+    --bg-elevated: #13131A;
+    --accent-gold: #D4A96A;
+    --accent-coral: #E07060;
+    --accent-teal: #6BB8C4;
+    --text-body: #F0EDE6;
+    --text-heading: #FFFFFF;
+    --text-muted: rgba(240, 237, 230, 0.45);
+    --border-subtle: rgba(255, 255, 255, 0.063);
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-body);
+    font-family: 'DM Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+}
+
+/* Hide default cursor globally when custom cursor is active */
+@media (hover: hover) {
+    *, *::before, *::after {
+        cursor: none !important;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb {
+    background: rgba(212, 169, 106, 0.25);
+    border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 169, 106, 0.5);
+}
+
+/* ─────────────────────────────────────────
+   HERO GRADIENT MESH BLOBS
+───────────────────────────────────────── */
+.hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+}
+
+/* Ambient drifting blobs — slightly brighter */
+.hero-blob-gold {
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(212,169,106,0.26) 0%, transparent 70%);
+    top: -250px;
+    left: -150px;
+    animation: blobDrift 22s ease-in-out infinite;
+}
+
+.hero-blob-coral {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(224,112,96,0.20) 0%, transparent 70%);
+    bottom: -100px;
+    right: 5%;
+    animation: blobDrift 18s ease-in-out infinite;
+    animation-delay: -8s;
+}
+
+.hero-blob-teal {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(107,184,196,0.15) 0%, transparent 70%);
+    top: 30%;
+    right: 25%;
+    animation: blobDrift 25s ease-in-out infinite;
+    animation-delay: -15s;
+}
+
+/* ── Breathing blobs — scale/opacity/translate all owned by Framer Motion ── */
+.hero-blob-breathe {
+    position: absolute;
+    border-radius: 50%;
+    width: 460px;
+    height: 460px;
+    filter: blur(70px);
+    pointer-events: none;
+    /* No CSS animation — Framer Motion drives scale, opacity, and x/y together */
+}
+
+.hero-blob-breathe-left {
+    background: radial-gradient(circle, rgba(212,169,106,0.38) 0%, rgba(212,169,106,0.08) 55%, transparent 75%);
+    top: 28%;
+    left: 6%;
+    /* duration + delay injected by React so each load is unique */
+}
+
+.hero-blob-breathe-right {
+    background: radial-gradient(circle, rgba(212,169,106,0.35) 0%, rgba(212,169,106,0.07) 55%, transparent 75%);
+    top: 28%;
+    left: 46%;
+    /* duration + delay injected by React so each load is unique */
+}
+
+@keyframes blobDrift {
+    0%, 100% { transform: translate(0px,   0px)  scale(1);    }
+    25%       { transform: translate(60px, -50px) scale(1.06); }
+    50%       { transform: translate(-40px, 70px) scale(0.94); }
+    75%       { transform: translate(40px,  40px) scale(1.03); }
+}
+
+/* ─────────────────────────────────────────
+   GRID TEXTURE BACKGROUND
+───────────────────────────────────────── */
+.grid-bg {
+    background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 64px 64px;
+}
+
+/* ─────────────────────────────────────────
+   FOCUS & ACCESSIBILITY
+───────────────────────────────────────── */
+*:focus         { outline: none; }
+*:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 3px; }
+
+/* ─────────────────────────────────────────
+   REDUCED MOTION
+───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration:       0.01ms !important;
+        animation-iteration-count: 1     !important;
+        transition-duration:      0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+}
+
+/* ─────────────────────────────────────────
+   TYPEWRITER CURSOR BLINK
+───────────────────────────────────────── */
+.typewriter-cursor { animation: blink 1s step-end infinite; }
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
 }

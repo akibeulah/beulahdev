@@ -1,298 +1,53 @@
-import './App.css'
-import {githubLogo, linkedinLogo, mediumLogo} from "./assets/index.js";
-import {useEffect, useRef, useState} from "react";
-import {Outlet} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {updateSiteData} from "./store/reducers/siteDataReducer.js";
-import {ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios";
-import {FadeRight, FadeUp, SlideDown} from "./components/AnimationWrapper.jsx";
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import axios from 'axios'
+import { updateSiteData } from './store/reducers/siteDataReducer.js'
 
-function App() {
+import CustomCursor from './components/portfolio/CustomCursor.jsx'
+import Navbar from './components/portfolio/Navbar.jsx'
+import Hero from './components/portfolio/Hero.jsx'
+import ProfileSummary from './components/portfolio/ProfileSummary.jsx'
+import ExperienceSection from './components/portfolio/ExperienceSection.jsx'
+import ProjectsSection from './components/portfolio/ProjectsSection.jsx'
+import Education from './components/portfolio/Education.jsx'
+import Footer from './components/portfolio/Footer.jsx'
+
+const API_HEADERS = {
+    'X-Access-Key': '$2a$10$gf.eHfmaQVjYOYb0g7xHMecpYHrXI0Ns81drdB8X8K2i7WjIH.rb6',
+    'X-Master-Key': '$2a$10$O8mg5O4345x.InwWkqAyFOq97wImT.FIUB37b2BPFkdg8NWpeE0.K',
+}
+
+export default function App() {
     const dispatch = useDispatch()
-    const state = useSelector(state => state.siteData)
-    const canvasRef = useRef(null);
-    const background = '#0A192F';
-    const [cursorGradient, setCursorGradient] = useState(null)
-    const radius = 350;
-    const animationFrameRef = useRef(null);
-    const mousePositionRef = useRef({ x: 0, y: 0 });
-    const currentPositionRef = useRef({ x: 0, y: 0 });
 
     useEffect(() => {
-        axios.get("https://api.jsonbin.io/v3/b/66795901acd3cb34a85c767f", {
-            headers: {
-                "X-Access-Key": "$2a$10$gf.eHfmaQVjYOYb0g7xHMecpYHrXI0Ns81drdB8X8K2i7WjIH.rb6",
-                "X-Master-Key": "$2a$10$O8mg5O4345x.InwWkqAyFOq97wImT.FIUB37b2BPFkdg8NWpeE0.K"
-            }
-        })
-            .then(response => {
-                dispatch(updateSiteData({name: "projects", value: response.data.record}))
+        axios
+            .get('https://api.jsonbin.io/v3/b/66795901acd3cb34a85c767f', {
+                headers: API_HEADERS,
             })
-        axios.get("https://api.jsonbin.io/v3/b/667958f8acd3cb34a85c7679", {
-            headers: {
-                "X-Access-Key": "$2a$10$gf.eHfmaQVjYOYb0g7xHMecpYHrXI0Ns81drdB8X8K2i7WjIH.rb6",
-                "X-Master-Key": "$2a$10$O8mg5O4345x.InwWkqAyFOq97wImT.FIUB37b2BPFkdg8NWpeE0.K"
-            }
-        })
-            .then(response => {
-                dispatch(updateSiteData({name: "experience", value: response.data.record}))
+            .then((res) => dispatch(updateSiteData({ name: 'projects', value: res.data.record })))
+            .catch(() => {})
+
+        axios
+            .get('https://api.jsonbin.io/v3/b/667958f8acd3cb34a85c7679', {
+                headers: API_HEADERS,
             })
-    }, []);
-
-    function createCursorGradient() {
-        const gradient = document.createElement('canvas');
-        const size = radius * 2;
-        gradient.width = size;
-        gradient.height = size;
-        const ctx = gradient.getContext('2d', { alpha: true });
-
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-
-        const radialGradient = ctx.createRadialGradient(
-            radius,
-            radius,
-            0,
-            radius,
-            radius,
-            radius
-        );
-
-        radialGradient.addColorStop(0, 'rgba(100, 255, 218, 0.15)');
-        radialGradient.addColorStop(0.3, 'rgba(100, 255, 218, 0.08)');
-        radialGradient.addColorStop(0.6, 'rgba(100, 255, 218, 0.03)');
-        radialGradient.addColorStop(1, 'rgba(10, 25, 47, 0)');
-
-        ctx.fillStyle = radialGradient;
-        ctx.fillRect(0, 0, size, size);
-
-        setCursorGradient(gradient);
-    }
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d', { alpha: false });
-
-        const resizeCanvas = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const lerp = (start, end, factor) => {
-            return start + (end - start) * factor;
-        };
-
-        const animate = () => {
-            if (!cursorGradient) {
-                animationFrameRef.current = requestAnimationFrame(animate);
-                return;
-            }
-
-            const smoothingFactor = 0.08;
-            currentPositionRef.current.x = lerp(
-                currentPositionRef.current.x,
-                mousePositionRef.current.x,
-                smoothingFactor
-            );
-            currentPositionRef.current.y = lerp(
-                currentPositionRef.current.y,
-                mousePositionRef.current.y,
-                smoothingFactor
-            );
-
-            ctx.fillStyle = background;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.globalCompositeOperation = 'lighter';
-            ctx.drawImage(
-                cursorGradient,
-                currentPositionRef.current.x - radius,
-                currentPositionRef.current.y - radius
-            );
-            ctx.globalCompositeOperation = 'source-over';
-
-            animationFrameRef.current = requestAnimationFrame(animate);
-        };
-
-        animate();
-
-        function handleMouseMove(event) {
-            mousePositionRef.current.x = event.clientX;
-            mousePositionRef.current.y = event.clientY;
-        }
-
-        window.addEventListener('mousemove', handleMouseMove);
-
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('resize', resizeCanvas);
-            if (animationFrameRef.current) {
-                cancelAnimationFrame(animationFrameRef.current);
-            }
-        };
-    }, [cursorGradient]);
-
-    useEffect(() => {
-        createCursorGradient()
-    }, []);
+            .then((res) => dispatch(updateSiteData({ name: 'experience', value: res.data.record })))
+            .catch(() => {})
+    }, [dispatch])
 
     return (
-        <div className={"bg-[#0A192F] text-[#E6F1FF] font-inter relative"}>
-            <ToastContainer/>
-            <canvas ref={canvasRef} className={"fixed top-0 left-0 w-full h-full z-0 pointer-events-none"}/>
-
-            <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-10 px-4 lg:px-8 relative z-10">
-                <div className="py-24 lg:px-4 lg:col-span-4 lg:h-screen flex flex-col">
-                    <div className="">
-                        <div className="mb-4">
-                            <h4 className={"ml-0.5 text-sm font-light"}>My name is</h4>
-                            <div className="overflow-hidden">
-                                <SlideDown>
-                                    <h4 className={"text-4xl lg:text-5xl mb-2 font-bold text-[#64FFDA]"}>
-                                        Akindele Beulah
-                                    </h4>
-                                </SlideDown>
-                            </div>
-                            <div className="overflow-hidden">
-                                {
-                                    state.experience.length === 0 ?
-                                        <div className="py-4">
-                                            <div className="block rounded-lg bg-gray-200/10 min-h-[20px] w-3/5 mb-0.5 content-[ ] animate-pulse backdrop-blur-sm"/>
-                                            <div className="block rounded-lg bg-gray-200/10 min-h-[20px] w-2/5 content-[ ] animate-pulse backdrop-blur-sm"/>
-                                        </div> :
-                                        <SlideDown delay={200}>
-                                            <h4 className={"text-xl lg:text-2xl font-medium text-[#8892B0]"}>
-                                                {state.experience[0].title} at {state.experience[0].company}
-                                            </h4>
-                                        </SlideDown>
-                                }
-                            </div>
-                        </div>
-
-                        <div className="">
-                            <p className={"mb-4 text-[#8892B0] leading-relaxed"}>
-                                I architect scalable backend systems for mission-critical fintech and banking infrastructure,
-                                specializing in payment processing, data migration, and microservices that power
-                                critical financial operations.
-                            </p>
-
-                            <p className={"text-[#8892B0] leading-relaxed"}>
-                                Fun facts about:
-                            </p>
-                            <ul className={"mb-8 lg:mb-0 ml-8 list-disc text-[#8892B0] leading-relaxed"}>
-                                <li>I'm a bit of a minimalist</li>
-                                <li>I play guitar in my free time</li>
-                                <li>I moonlight as a mechanic</li>
-                            </ul>
-
-                            <div className="flex lg:hidden flex-row justify-start items-center mt-8">
-                                <FadeUp delay={100}>
-                                    <a href="https://github.com/akibeulah"
-                                       className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
-                                        <img className="w-20 lg:w-24" {...githubLogo} />
-                                    </a>
-                                </FadeUp>
-
-                                <FadeUp delay={200}>
-                                    <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
-                                       className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
-                                        <img className="w-20 lg:w-24" {...linkedinLogo} />
-                                    </a>
-                                </FadeUp>
-
-                                <FadeUp delay={300}>
-                                    <a href="https://medium.com/@akibeulah"
-                                       className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
-                                        <img className="w-20 lg:w-24" {...mediumLogo} />
-                                    </a>
-                                </FadeUp>
-                            </div>
-                        </div>
-
-                        <div className="hidden lg:flex flex-col space-y-3 py-8 overflow-hidden">
-                            <FadeRight delay={100}>
-                                <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
-                                    state.landingPageFocus === "about" ? "active" : "text-[#8892B0] hover:text-[#E6F1FF]"
-                                }`}
-                                        onClick={() => dispatch(updateSiteData({
-                                            name: "landingPageFocus",
-                                            value: "about"
-                                        }))}>About
-                                </button>
-                            </FadeRight>
-                            <FadeRight delay={200}>
-                                <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
-                                    state.landingPageFocus === "experience" ? "active" : "text-[#8892B0] hover:text-[#E6F1FF]"
-                                }`}
-                                        onClick={() => dispatch(updateSiteData({
-                                            name: "landingPageFocus",
-                                            value: "experience"
-                                        }))}>Experience
-                                </button>
-                            </FadeRight>
-                            <FadeRight delay={300}>
-                                <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
-                                    state.landingPageFocus === "technologies" ? "active" : "text-[#8892B0] hover:text-[#E6F1FF]"
-                                }`}
-                                        onClick={() => dispatch(updateSiteData({
-                                            name: "landingPageFocus",
-                                            value: "technologies"
-                                        }))}>Technologies
-                                </button>
-                            </FadeRight>
-                            <FadeRight delay={400}>
-                                <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
-                                    state.landingPageFocus === "projects" ? "active" : "text-[#8892B0] hover:text-[#E6F1FF]"
-                                }`}
-                                        onClick={() => dispatch(updateSiteData({
-                                            name: "landingPageFocus",
-                                            value: "projects"
-                                        }))}>Projects
-                                </button>
-                            </FadeRight>
-                            <FadeRight delay={500}>
-                                <button className={`uppercase text-sm font-medium lined relative w-fit transition-all duration-300 ${
-                                    state.landingPageFocus === "contact" ? "active" : "text-[#8892B0] hover:text-[#E6F1FF]"
-                                }`}
-                                        onClick={() => dispatch(updateSiteData({
-                                            name: "landingPageFocus",
-                                            value: "contact"
-                                        }))}>Contact Me
-                                </button>
-                            </FadeRight>
-                        </div>
-                    </div>
-
-                    <div className="hidden mt-auto lg:flex flex-row justify-start items-center">
-                        <a href="https://github.com/akibeulah"
-                           className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
-                            <img className="w-20 lg:w-24" {...githubLogo} />
-                        </a>
-
-                        <a href="https://www.linkedin.com/in/beulah-akindele-8093b9193/"
-                           className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
-                            <img className="w-20 lg:w-24" {...linkedinLogo} />
-                        </a>
-
-                        <a href="https://medium.com/@akibeulah"
-                           className="mr-4 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
-                            <img className="w-20 lg:w-24" {...mediumLogo} />
-                        </a>
-                    </div>
-                </div>
-
-                <div className="lg:px-4 lg:py-24 lg:col-span-6 lg:h-screen overflow-x-hidden lg:overflow-scroll scrollbar-none">
-                    <Outlet/>
-                </div>
-            </div>
+        <div className="relative bg-[#0A0A0F] text-[#F0EDE6] overflow-x-hidden font-dm-mono">
+            <CustomCursor />
+            <Navbar />
+            <main>
+                <Hero />
+                <ProfileSummary />
+                <ExperienceSection />
+                <ProjectsSection />
+                <Education />
+            </main>
+            <Footer />
         </div>
     )
 }
-
-export default App

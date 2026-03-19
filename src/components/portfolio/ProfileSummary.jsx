@@ -1,0 +1,174 @@
+import { useEffect, useRef, useState } from 'react'
+import { motion, useInView } from 'framer-motion'
+import GlassCard from './GlassCard.jsx'
+
+function CountUp({ to, suffix = '' }) {
+    const [count, setCount] = useState(0)
+    const ref    = useRef(null)
+    const inView = useInView(ref, { once: true })
+
+    useEffect(() => {
+        if (!inView) return
+        const duration = 1600
+        const start    = Date.now()
+        const frame    = () => {
+            const elapsed  = Date.now() - start
+            const progress = Math.min(elapsed / duration, 1)
+            const eased    = 1 - Math.pow(1 - progress, 3)
+            setCount(Math.round(eased * to))
+            if (progress < 1) requestAnimationFrame(frame)
+        }
+        requestAnimationFrame(frame)
+    }, [inView, to])
+
+    return <span ref={ref}>{count}{suffix}</span>
+}
+
+const STATS = [
+    { value: 4,  suffix: '+', label: 'Years Experience' },
+    { value: 15, suffix: '+', label: 'Projects Shipped'  },
+    { value: 3,  suffix: '',  label: 'Countries Deployed' },
+]
+
+export default function ProfileSummary() {
+    const ref    = useRef(null)
+    const inView = useInView(ref, { once: true, margin: '-80px' })
+
+    return (
+        <section id="about" ref={ref} className="relative py-24 lg:py-36 overflow-hidden">
+            {/* Grid texture */}
+            <div className="absolute inset-0 grid-bg pointer-events-none opacity-60" aria-hidden="true" />
+
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+                {/* Section label */}
+                <motion.p
+                    className="font-space-mono text-[#D4A96A] text-[10px] uppercase tracking-[0.45em] mb-14"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                >
+                    01 — Profile
+                </motion.p>
+
+                <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                    {/* Left: big stat */}
+                    <motion.div
+                        className="lg:col-span-4"
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={inView ? { opacity: 1, x: 0 } : {}}
+                        transition={{ duration: 0.8, delay: 0.15 }}
+                    >
+                        <div className="relative select-none">
+                            <p
+                                className="font-syne font-black leading-none"
+                                style={{
+                                    fontSize: 'clamp(6rem, 14vw, 11rem)',
+                                    color: 'rgba(212,169,106,0.08)',
+                                }}
+                            >
+                                <CountUp to={4} />+
+                            </p>
+                            <p
+                                className="font-syne font-black leading-none text-[#D4A96A]"
+                                style={{
+                                    fontSize: 'clamp(3.5rem, 8vw, 6rem)',
+                                    marginTop: 'clamp(-3rem, -6vw, -5rem)',
+                                }}
+                            >
+                                YRS
+                            </p>
+                            <p className="font-space-mono text-[#F0EDE6]/35 text-[10px] uppercase tracking-[0.4em] mt-4">
+                                Engineering Experience
+                            </p>
+                        </div>
+
+                        {/* Mini stats */}
+                        <div className="flex flex-col gap-4 mt-10">
+                            {STATS.map((stat, i) => (
+                                <motion.div
+                                    key={stat.label}
+                                    className="flex items-center gap-4"
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={inView ? { opacity: 1, x: 0 } : {}}
+                                    transition={{ delay: 0.4 + i * 0.1 }}
+                                >
+                                    <span className="font-syne font-black text-2xl text-white">
+                                        <CountUp to={stat.value} suffix={stat.suffix} />
+                                    </span>
+                                    <span className="font-space-mono text-[10px] uppercase tracking-widest text-[#F0EDE6]/35">
+                                        {stat.label}
+                                    </span>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    {/* Right: bio */}
+                    <motion.div
+                        className="lg:col-span-8"
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={inView ? { opacity: 1, x: 0 } : {}}
+                        transition={{ duration: 0.8, delay: 0.25 }}
+                    >
+                        <h2
+                            className="font-syne font-black text-white mb-8 leading-[1.1]"
+                            style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}
+                        >
+                            Building systems that{' '}
+                            <span className="text-[#E07060]">power</span> financial infrastructure
+                        </h2>
+
+                        <p className="font-dm-mono text-[#F0EDE6]/60 text-sm leading-[1.9] mb-5">
+                            I'm Beulah, a Principal Fullstack Software Engineer from Lagos. I build backend systems and fintech infrastructure — the kind where downtime isn't an option and correctness isn't negotiable.
+                            Most of my work lives in payment rails, trading platforms, and distributed systems serving hundreds of financial institutions across Africa. I care deeply about security, clean architecture, and leaving codebases better than I found them.
+                        </p>
+
+                        <p className="font-dm-mono text-[#F0EDE6]/60 text-sm leading-[1.9] mb-10">
+                            When I'm not solving problems for clients, I'm building things for myself: an AI-powered documentation platform that scales with multi-repository infrastructure keeping engineering teams unblocked, and a live revenue-generating multi-tenant SaaS. I'm most at home owning hard problems end to end, from the database to the deployment pipeline. If you need realtime data processed quickly and at scale, I'm interested.
+                        </p>
+
+                        {/* Fun facts */}
+                        <div className="grid grid-cols-3 gap-3">
+                            {[
+                                { icon: '○', label: 'Minimalist' },
+                                { icon: '♪', label: 'Guitarist'  },
+                                { icon: '⚙', label: 'Mechanic'   },
+                            ].map((fact, i) => (
+                                <motion.div
+                                    key={fact.label}
+                                    className="h-full"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                                    transition={{ delay: 0.55 + i * 0.1 }}
+                                >
+                                    <GlassCard tiltDeg={8}>
+                                        <div className="p-4">
+                                            <span className="text-2xl block mb-2 text-[#D4A96A]">
+                                                {fact.icon}
+                                            </span>
+                                            <span className="font-space-mono text-[10px] uppercase tracking-widest text-[#F0EDE6]/45">
+                                                {fact.label}
+                                            </span>
+                                        </div>
+                                    </GlassCard>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+                </div>
+
+                {/* Gradient divider */}
+                <motion.div
+                    className="mt-20 h-px"
+                    style={{
+                        background:
+                            'linear-gradient(90deg, #D4A96A 0%, #6BB8C4 50%, #E07060 100%)',
+                    }}
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={inView ? { scaleX: 1, opacity: 1 } : {}}
+                    transition={{ duration: 1.2, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                />
+            </div>
+        </section>
+    )
+}
