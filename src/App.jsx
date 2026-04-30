@@ -12,9 +12,48 @@ import ProjectsSection from './components/portfolio/ProjectsSection.jsx'
 import Education from './components/portfolio/Education.jsx'
 import Footer from './components/portfolio/Footer.jsx'
 
-const API_HEADERS = {
-    'X-Access-Key': '$2a$10$gf.eHfmaQVjYOYb0g7xHMecpYHrXI0Ns81drdB8X8K2i7WjIH.rb6',
-    'X-Master-Key': '$2a$10$O8mg5O4345x.InwWkqAyFOq97wImT.FIUB37b2BPFkdg8NWpeE0.K',
+const SPARTAN_URL = import.meta.env.VITE_SPARTAN_API_URL || "https://spartan.studiopixels.xyz";
+const SPARTAN_KEY = import.meta.env.VITE_SPARTAN_API_KEY || "ak_0d057d263bb25058f06e86a473ca91631cf90f2abaa2bc0591000a340549645b";
+
+const spartanHeaders = { 'X-Api-Key': SPARTAN_KEY }
+
+function formatDateRange(startDate, endDate) {
+    const fmt = (d) =>
+        new Date(d).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+    return `${fmt(startDate)} — ${endDate ? fmt(endDate) : 'Present'}`
+}
+
+function toExperience(item) {
+    let desc = item.description || ''
+    try { desc = JSON.parse(desc) } catch (_) {}
+    return {
+        time: formatDateRange(item.startDate, item.endDate),
+        title: item.title,
+        company: item.company,
+        desc,
+        tech: item.skills || [],
+    }
+}
+
+function toProject(item) {
+    return {
+        title: item.title,
+        url: item.url || '',
+        tech: item.skills || [],
+        desc: item.description || '',
+        img: item.images?.[0] || '',
+        githubUrl: item.githubUrl || '',
+    }
+}
+
+function toEducation(item) {
+    return {
+        degree: item.degree || '',
+        school: item.schoolName || '',
+        location: item.location || '',
+        startYear: item.startDate ? new Date(item.startDate).getFullYear() : '',
+        endYear: item.endDate ? new Date(item.endDate).getFullYear() : 'Present',
+    }
 }
 
 export default function App() {
@@ -22,17 +61,24 @@ export default function App() {
 
     useEffect(() => {
         axios
-            .get('https://api.jsonbin.io/v3/b/66795901acd3cb34a85c767f', {
-                headers: API_HEADERS,
-            })
-            .then((res) => dispatch(updateSiteData({ name: 'projects', value: res.data.record })))
+            .get(`${SPARTAN_URL}/api/portfolio/work-history`, { headers: spartanHeaders })
+            .then((res) =>
+                dispatch(updateSiteData({ name: 'experience', value: res.data.data.map(toExperience) }))
+            )
             .catch(() => {})
 
         axios
-            .get('https://api.jsonbin.io/v3/b/667958f8acd3cb34a85c7679', {
-                headers: API_HEADERS,
-            })
-            .then((res) => dispatch(updateSiteData({ name: 'experience', value: res.data.record })))
+            .get(`${SPARTAN_URL}/api/portfolio/projects?limit=50`, { headers: spartanHeaders })
+            .then((res) =>
+                dispatch(updateSiteData({ name: 'projects', value: res.data.data.map(toProject) }))
+            )
+            .catch(() => {})
+
+        axios
+            .get(`${SPARTAN_URL}/api/portfolio/education`, { headers: spartanHeaders })
+            .then((res) =>
+                dispatch(updateSiteData({ name: 'education', value: res.data.data.map(toEducation) }))
+            )
             .catch(() => {})
     }, [dispatch])
 

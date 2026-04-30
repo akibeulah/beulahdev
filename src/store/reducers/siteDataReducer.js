@@ -16,7 +16,8 @@ const initialState = {
     landingPageFocus: "about",
     quotes: quotesArray,
     projects: [],
-    experience: []
+    experience: [],
+    education: [],
 }
 
 const siteDataReducer = createSlice({
