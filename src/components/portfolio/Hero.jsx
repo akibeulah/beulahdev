@@ -253,7 +253,7 @@ export default function Hero() {
                             View Work
                         </button>
                         <a
-                            href="/resume.pdf"
+                            href="/BeulahAkindeleResume.pdf"
                             download
                             className="px-8 py-3.5 border-2 border-[#D4A96A] text-[#D4A96A] font-syne font-bold text-[11px] uppercase tracking-[0.22em] hover:bg-[#D4A96A] hover:text-[#0A0A0F] transition-all duration-200 hover:-translate-y-0.5"
                         >
