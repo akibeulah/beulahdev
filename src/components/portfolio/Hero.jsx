@@ -278,7 +278,7 @@ export default function Hero() {
                         <div className="absolute inset-0 flex items-center justify-center">
                             <div className="text-center">
                                 <p className="font-syne font-black text-7xl leading-none"
-                                   style={{ color: 'rgba(212,169,106,0.12)' }}>4+</p>
+                                   style={{ color: 'rgba(212,169,106,0.12)' }}>5+</p>
                                 <p className="font-space-mono text-[9px] uppercase tracking-[0.4em] mt-1"
                                    style={{ color: 'rgba(240,237,230,0.15)' }}>Years</p>
                             </div>

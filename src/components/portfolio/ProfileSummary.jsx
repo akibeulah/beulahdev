@@ -25,9 +25,9 @@ function CountUp({ to, suffix = '' }) {
 }
 
 const STATS = [
-    { value: 4,  suffix: '+', label: 'Years Experience' },
-    { value: 15, suffix: '+', label: 'Projects Shipped'  },
-    { value: 3,  suffix: '',  label: 'Countries Deployed' },
+    { value: 5,  suffix: '+', label: 'Years Experience' },
+    { value: 500, suffix: '+', label: 'Institutions Served' },
+    { value: 9,  suffix: '',  label: 'Countries Deployed' },
 ]
 
 export default function ProfileSummary() {
@@ -66,7 +66,7 @@ export default function ProfileSummary() {
                                     color: 'rgba(212,169,106,0.08)',
                                 }}
                             >
-                                <CountUp to={4} />+
+                                <CountUp to={5} />+
                             </p>
                             <p
                                 className="font-syne font-black leading-none text-[#D4A96A]"
@@ -119,12 +119,12 @@ export default function ProfileSummary() {
                         </h2>
 
                         <p className="font-dm-mono text-[#F0EDE6]/60 text-sm leading-[1.9] mb-5">
-                            I'm Beulah, a Principal Fullstack Software Engineer from Lagos. I build backend systems and fintech infrastructure — the kind where downtime isn't an option and correctness isn't negotiable.
-                            Most of my work lives in payment rails, trading platforms, and distributed systems serving hundreds of financial institutions across Africa. I care deeply about security, clean architecture, and leaving codebases better than I found them.
+                            I'm Beulah, a Principal Full Stack Software Engineer in Lagos with 5 years building backend systems, the last two and a half across banking and payments infrastructure. I co-lead the Channels team at Qore, where our platform moves interbank transfers and card, POS and USSD transactions for 500+ financial institutions in 9 African countries over 10+ payment gateways and switches.
+                            I design for the moment an upstream switch fails mid-transaction, so a retried instruction never double-posts a credit and a stuck transfer surfaces for reconciliation instead of disappearing.
                         </p>
 
                         <p className="font-dm-mono text-[#F0EDE6]/60 text-sm leading-[1.9] mb-10">
-                            When I'm not solving problems for clients, I'm building things for myself: an AI-powered documentation platform that scales with multi-repository infrastructure keeping engineering teams unblocked, and a live revenue-generating multi-tenant SaaS. I'm most at home owning hard problems end to end, from the database to the deployment pipeline. If you need realtime data processed quickly and at scale, I'm interested.
+                            I build with AI where it earns its place: an internal RAG documentation platform that regenerates docs from every repository on each push, and tool-calling agents that read tenant data through guarded APIs. Outside work I run Spartan, a live revenue-generating multi-tenant SaaS, and VisiGuard, a visitor-management platform. I'm most at home owning hard problems end to end, from the database to the deployment pipeline.
                         </p>
 
                         {/* Fun facts */}

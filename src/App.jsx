@@ -46,6 +46,22 @@ function toProject(item) {
     }
 }
 
+// Projects that lead the grid, in this order; the rest keep the API's order.
+const FEATURED_PROJECTS = ['Spartan / SPRTN.AI', 'TBO VisiGuard / VMS', 'AI Documentation Platform']
+const HIDDEN_PROJECTS = ['Todo Application', 'Rich Text Editor']
+
+function arrangeProjects(projects) {
+    const rank = (p) => {
+        const i = FEATURED_PROJECTS.indexOf(p.title)
+        return i === -1 ? FEATURED_PROJECTS.length : i
+    }
+    return projects
+        .filter((p) => !HIDDEN_PROJECTS.includes(p.title))
+        .map((p, i) => ({ p, i }))
+        .sort((a, b) => rank(a.p) - rank(b.p) || a.i - b.i)
+        .map(({ p }) => p)
+}
+
 function toEducation(item) {
     return {
         degree: item.degree || '',
@@ -70,7 +86,7 @@ export default function App() {
         axios
             .get(`${SPARTAN_URL}/api/portfolio/projects?limit=50`, { headers: spartanHeaders })
             .then((res) =>
-                dispatch(updateSiteData({ name: 'projects', value: res.data.data.map(toProject) }))
+                dispatch(updateSiteData({ name: 'projects', value: arrangeProjects(res.data.data.map(toProject)) }))
             )
             .catch(() => {})
 

@@ -66,6 +66,13 @@ export default function Footer() {
                     </a>
                 </div>
 
+                <a
+                    href="mailto:akibeulah@gmail.com"
+                    className="font-dm-mono text-[#F0EDE6]/45 hover:text-[#D4A96A] text-xs tracking-[0.2em] transition-colors duration-200"
+                >
+                    akibeulah@gmail.com
+                </a>
+
                 <div className="w-16 h-px bg-white/[0.08]" aria-hidden="true" />
 
                 <p className="font-dm-mono text-[#F0EDE6]/18 text-[10px] uppercase tracking-[0.3em] text-center">
