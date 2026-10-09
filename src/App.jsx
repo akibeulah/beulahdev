@@ -41,13 +41,23 @@ function toProject(item) {
         url: item.url || '',
         tech: item.skills || [],
         desc: item.description || '',
+        summary: item.subtitle || '',
         img: item.images?.[0] || '',
         githubUrl: item.githubUrl || '',
     }
 }
 
 // Projects that lead the grid, in this order; the rest keep the API's order.
-const FEATURED_PROJECTS = ['Spartan / SPRTN.AI', 'TBO VisiGuard / VMS', 'AI Documentation Platform']
+const FEATURED_PROJECTS = [
+    'Spartan / SPRTN.AI',
+    'TBO VisiGuard / VMS',
+    'AI Documentation Platform',
+    'SPRTN Residence',
+    'ClappedMob Storefront',
+    'XclusiveChic Storefront',
+    'Gracefield Island Website',
+    'SPRTN Dental',
+]
 const HIDDEN_PROJECTS = ['Todo Application', 'Rich Text Editor']
 
 function arrangeProjects(projects) {
