@@ -119,12 +119,12 @@ export default function ProfileSummary() {
                         </h2>
 
                         <p className="font-dm-mono text-[#F0EDE6]/60 text-sm leading-[1.9] mb-5">
-                            I'm Beulah, a Principal Full Stack Software Engineer in Lagos with 5 years building backend systems, the last two and a half across banking and payments infrastructure. I co-lead the Channels team at Qore, where our platform moves interbank transfers and card, POS and USSD transactions for 500+ financial institutions in 9 African countries over 10+ payment gateways and switches.
-                            I design for the moment an upstream switch fails mid-transaction, so a retried instruction never double-posts a credit and a stuck transfer surfaces for reconciliation instead of disappearing.
+                            I'm Beulah, a Principal Full Stack Software Engineer in Lagos with 5 years building backend systems, with a focus on financial and payments infrastructure. I co-lead the Channels team at Qore, where our platform moves interbank transfers and card, POS and USSD transactions for 500+ financial institutions in 9 African countries over 10+ payment gateways and switches.
+                            I build for resilience and idempotency, so that a 3AM failure upstream or downstream is still visible when the self-healing measures have failed too. I design each system around what it actually needs, not one pattern for everything. I work as a product-minded developer: the experience of the engineers building on a system should be as good as the experience of the people using it.
                         </p>
 
                         <p className="font-dm-mono text-[#F0EDE6]/60 text-sm leading-[1.9] mb-10">
-                            I build with AI where it earns its place: an internal RAG documentation platform that regenerates docs from every repository on each push, and tool-calling agents that read tenant data through guarded APIs. Outside work I run Spartan, a live revenue-generating multi-tenant SaaS, and VisiGuard, a visitor-management platform. I'm most at home owning hard problems end to end, from the database to the deployment pipeline.
+                            Outside Qore I founded SPRTN, a super SaaS for small and growing businesses. Instead of one tool per job, it provides services that cut across how a business runs: content management for websites and blogs, e-commerce from catalogue to checkout and payments, property listings and enquiries, visitor access for estates, and the administrative work behind them, such as staff roles, bookings, customer records and reporting. It is live and generating revenue. The direction now is AI built into the product: an assistant in the dashboard that drafts a product from a photo, edits images and answers questions about sales, and a builder that designs and publishes a business's site for them. I'm most at home owning hard problems end to end, from the database to the deployment pipeline.
                         </p>
 
                         {/* Fun facts */}
